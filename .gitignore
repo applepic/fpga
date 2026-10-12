@@ -1,0 +1,14 @@
+# 综合 / 布局布线产物
+build/
+impl/
+*.fs
+*.bit
+*.rpt
+
+# 仿真产物
+*.vcd
+*.fst
+sim/output/
+
+# 编辑器
+.vscode/
