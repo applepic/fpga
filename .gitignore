@@ -12,3 +12,6 @@ sim/output/
 
 # 编辑器
 .vscode/
+
+# 参考书（体积大，版权原因不进 git）
+docs/

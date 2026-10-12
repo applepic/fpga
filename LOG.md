@@ -8,6 +8,7 @@
 |---|---|---|---|---|
 | 2026-05-18 | `9fe373c` | `init` | `README.md` | 建仓库。见 git commit `9fe373c` |
 | 2026-10-12 | `4aff2e34` | 建立项目文档骨架 | `AGENTS.md`、`SPEC.md`、`LOG.md`、`LOG-INDEX.md`、`README.md` | 项目尚未开始，先把约定和规划落下来，避免开工时从零摸索 |
+| 2026-10-12 | `9bcacf23` | 确认目标板，新增学习路线 | `LEARNING.md`（新建）、`SPEC.md`、`README.md`、`AGENTS.md`、`.gitignore` | 用户确认板子为 Tang Nano 9K 并说明要从头学 FPGA。项目定位从「直接做 RV32I」改为「先学完阶段 0 到 3 再做 RV32I」 |
 
 ## 关于 2026-05-18 那条
 
