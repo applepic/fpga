@@ -45,15 +45,19 @@ fpga/
 ├── constraints/tangnano9k.cst 整块板子的引脚（所有项目共用）
 ├── scripts/                   build / sim / flash
 ├── infra/toolchain_smoke/     工具链自检，不是学习材料
-├── examples/                  学习过程中的练习
+├── lessons/                   课程正文，一课一个 .md
+├── examples/                  学习过程中的练习，一课一个目录
 │   └── NN_名字/
-│       ├── rtl/*.v            设计
-│       ├── sim/tb_*.v         testbench
+│       ├── rtl/*.v            设计（由你填）
+│       ├── sim/tb_*.v         testbench（验收标准，不许改）
 │       └── build/             产物（不进 git）
 └── rv32i/                     阶段 C
 ```
 
 一个练习 = 一个目录。`rtl/` 放设计，`sim/` 放 testbench，`build/` 自动生成且被 `.gitignore` 忽略。
+
+**这份 `LEARNING.md` 是路线，具体怎么走看 [lessons/README.md](lessons/README.md)。**
+路线说「阶段 A 要会时序逻辑」，课程说「第 2 课讲 `always`，第 3 课写计数器」。
 
 ### 三个工具链的坑（都踩过，已修进脚本）
 

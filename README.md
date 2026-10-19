@@ -7,15 +7,20 @@
 
 ## 现在该做什么
 
-**从 `examples/01_counter` 开始。** 不要直接跳到 RV32I。
+**从 [第 1 课](lessons/01_verilog_basics.md) 开始。** 不要直接跳到 RV32I。
 
-那个目录里已经写好 testbench（验收标准），缺的是 `rtl/counter.v` —— 由你来写。
-跑起来会报编译错误，这就是起点。
+课程一课一课走，每课配一个练习目录：`sim/` 里是 testbench（验收标准，不许改），
+`rtl/` 是空的，由你来填。
 
 ```powershell
+cd C:\Local_Data\Dev\fpga
 . .\env.ps1
-.\scripts\sim.ps1 -Project examples/01_counter
+.\scripts\sim.ps1 -Project examples/00_gates
 ```
+
+跑起来会报 `Unknown module type`，这就是起点。
+
+课程目录与进度表见 [lessons/README.md](lessons/README.md)。
 
 ## 环境
 
@@ -63,11 +68,16 @@ iverilog 14.0 / yosys 0.65 / nextpnr 0.10 / openFPGALoader 1.1.1 / gtkwave。
 
 | 文件 | 内容 |
 |---|---|
+| [lessons/README.md](lessons/README.md) | **课程目录与进度表**。一课一课怎么走过去 |
+| [lessons/01_verilog_basics.md](lessons/01_verilog_basics.md) | **第 1 课**：`wire` / `assign` / 位运算 / 仿真机制 |
 | [LEARNING.md](LEARNING.md) | **学习路线**。三个阶段 + 每阶段的客观验收标准 + 工具链的坑 |
 | [SPEC.md](SPEC.md) | RV32I 的架构边界与规划 |
 | [AGENTS.md](AGENTS.md) | AI 开工须知 |
 | [LOG.md](LOG.md) / [LOG-INDEX.md](LOG-INDEX.md) | 变更史 |
 | `docs/` | 参考书，不进 git |
+
+> **路线 vs 课程**：`LEARNING.md` 说「阶段 A 要会时序逻辑」，
+> `lessons/` 说「第 2 课讲 `always`，第 3 课写计数器」。前者是目标，后者是路径。
 
 ## 参考资源
 
