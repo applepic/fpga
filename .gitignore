@@ -4,10 +4,17 @@ impl/
 *.fs
 *.bit
 *.rpt
+*.json
+nextpnr.log
+synth.log
+
+# 注意：.json 只该匹配 build/ 里的产物。如果以后有手写的 .json 配置，
+# 改成显式的 build/**/*.json
 
 # 仿真产物
 *.vcd
 *.fst
+*.vvp
 sim/output/
 
 # 编辑器

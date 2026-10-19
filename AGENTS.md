@@ -15,7 +15,7 @@
 
 ## #3 改前必须确认
 
-**项目处于学习阶段。用户要从零学 FPGA，`LEARNING.md` 的阶段 0 到 3 还没完成。**
+**项目处于学习阶段。用户要从零学 FPGA，`LEARNING.md` 的阶段 A、B 还没完成。**
 以下操作必须先停下来说明并等用户确认：
 
 - 跳过 `LEARNING.md` 的阶段，直接开始写 RV32I
@@ -36,8 +36,10 @@
 - 上板结果和仿真不一致时，先怀疑约束文件（引脚、时钟），再怀疑 RTL。
 
 ## #6 禁止行为
-- **不要在阶段 0 到 3 完成前直接给 RV32I 的答案。** 用户要的是学会，不是拿到成品。
+- **不要在阶段 A、B 完成前直接给 RV32I 的答案。** 用户要的是学会，不是拿到成品。
   他卡住时给思路和定位方法，不要直接把完整代码贴上去
+- **不要替用户写 `examples/` 下的练习实现。** 那里只有 testbench（验收标准）和 README，
+  `rtl/` 空着是**故意的**。他卡住时给提示，不给代码
 - **不要扩大范围。** 第一版只做 RV32I 基础指令，不加 M / A / F / D 扩展、不加缓存、不加特权态。
   范围一放开，这个项目永远做不完
 - **不要在没有仿真证据的情况下说「完成了」。**
@@ -47,14 +49,21 @@
 
 | 东西 | 路径 |
 |---|---|
-| 工具链 | `C:\Local_Data\oss-cad-suite\bin\` |
-| 仿真器 | `iverilog.exe` / `verilator` |
+| 工具链 | `C:\Local_Data\oss-cad-suite\bin\`（**`lib\` 也要进 PATH**，见 `env.ps1`） |
+| 环境脚本 | `env.ps1`（必须 dot-source：`. .\env.ps1`） |
+| 构建 / 仿真 / 烧录 | `scripts\build.ps1` / `sim.ps1` / `flash.ps1` |
+| 板级引脚约束 | `constraints\tangnano9k.cst`（所有项目共用） |
+| 工具链自检 | `infra\toolchain_smoke` |
+| 仿真器 | `iverilog.exe` / `vvp`（Verilator 只有 `verilator_bin.exe` 可用，perl 包装脚本坏了） |
 | 综合 | `yosys` |
-| 布局布线 | `nextpnr-himbaechel.exe`（支持 Gowin） |
-| 烧录 | `openFPGALoader.exe` |
+| 布局布线 | `nextpnr-himbaechel.exe`（**`--vopt cst=` + `--vopt family=GW1N-9C`**，没有 `--cst`） |
+| 烧录 | `openFPGALoader.exe -b tangnano9k` |
 | 厂商 IDE 配置 | `C:\Users\str\.gowinsemi` |
 | 参考书 | `C:\Local_Data\Dev\fpga\docs\Verilog-by-Example_Readler-2011.pdf` |
 | 仓库远端 | `https://github.com/applepic/fpga.git` |
+
+> **改脚本前先读 `LEARNING.md` 的「三个工具链的坑」。** 那三条都是 2026-10-18 实际踩出来的，
+> 其中第一条（缺 `lib\` 导致 `-1073741515`）没有任何错误信息，很容易被误判成别的问题。
 
 ## #8 日志文件区分
 - 仿真波形、综合报告、时序报告 → 构建产物，随时可重新生成，**不进 git**。

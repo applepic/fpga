@@ -2,14 +2,39 @@
 
 从零学 FPGA，终点是用 Verilog 实现一个 RV32I 处理器核，在 **Tang Nano 9K** 上跑通。
 
-> **状态（2026-10-12）：学习阶段，尚未开始写 RTL。**
-> 板子已确认。学习路线见 [LEARNING.md](LEARNING.md)。
+> **状态（2026-10-18）：工具链已打通并验证，学习阶段，尚未开始写自己的 RTL。**
+> 学习路线见 [LEARNING.md](LEARNING.md)。
 
 ## 现在该做什么
 
-**从 [LEARNING.md](LEARNING.md) 的阶段 0 开始。** 不要直接跳到 RV32I。
+**从 `examples/01_counter` 开始。** 不要直接跳到 RV32I。
 
-阶段 0 是环境打通，目标是不看教程独立完成一次「写代码 → 综合 → 约束 → 布局布线 → 烧录」。
+那个目录里已经写好 testbench（验收标准），缺的是 `rtl/counter.v` —— 由你来写。
+跑起来会报编译错误，这就是起点。
+
+```powershell
+. .\env.ps1
+.\scripts\sim.ps1 -Project examples/01_counter
+```
+
+## 环境
+
+**开新终端先跑一次 `. .\env.ps1`**（前面那个点不能省）。
+
+| 命令 | 作用 |
+|---|---|
+| `.\scripts\sim.ps1 -Project <目录>` | iverilog 仿真，产出 `build/tb.vcd` |
+| `.\scripts\sim.ps1 -Project <目录> -Open` | 同上，并打开 gtkwave 看波形 |
+| `.\scripts\build.ps1 -Project <目录>` | 综合 + 布局布线 + 生成 `build/top.fs` |
+| `.\scripts\flash.ps1 -Project <目录>` | 烧 SRAM（掉电丢） |
+| `.\scripts\flash.ps1 -Project <目录> -Flash` | 烧 Flash（掉电保留） |
+
+**自检**：`.\scripts\sim.ps1 -Project infra/toolchain_smoke` 和
+`.\scripts\build.ps1 -Project infra/toolchain_smoke` 都应该通过。
+这两个不通，说明工具链有问题，不要往下学。
+
+工具链在 `C:\Local_Data\oss-cad-suite`，版本 `20260518`：
+iverilog 14.0 / yosys 0.65 / nextpnr 0.10 / openFPGALoader 1.1.1 / gtkwave。
 
 ## 板子
 
@@ -23,31 +48,24 @@
 | 块状 RAM | 26 个 BSRAM，共 468K bits |
 | 板载存储 | 32Mbit SPI Flash，64Mbit PSRAM |
 | 时钟 | 27 MHz 晶振 |
-| 按键 | 2 个用户按键 |
-| LED | 6 个（低电平点亮） |
-| 调试器 | 板载 BL702，USB-JTAG + USB-UART |
+| 按键 | 2 个用户按键（引脚 4、3，低电平按下） |
+| LED | 6 个（引脚 10/11/13/14/15/16，**低电平点亮**） |
+| 调试器 | 板载 BL702，USB-JTAG + USB-UART（TX=17，RX=18） |
 | 显示接口 | HDMI、RGB 屏、SPI 屏 |
 
-## 环境（已就绪）
+引脚全部写在 `constraints/tangnano9k.cst`，来源与核对日期记在文件头。
 
-| 用途 | 工具 | 位置 |
-|---|---|---|
-| 仿真 | `iverilog` / `verilator` | `C:\Local_Data\oss-cad-suite\bin\` |
-| 综合 | `yosys` | 同上 |
-| 布局布线 | `nextpnr-himbaechel` | 同上 |
-| 烧录 | `openFPGALoader` | 同上 |
-| 厂商 IDE（交叉验证用） | Gowin EDA | 配置在 `C:\Users\str\.gowinsemi` |
-| 编辑器 | VS Code + Verilog HDL 扩展 | 已装 |
-
-工具链版本：oss-cad-suite `20260518`。
+> **器件型号的坑**：datasheet 写 `GW1NR-LV9QN88PC6/I5`，
+> Gowin IDE 里要选 `GW1NR-UV9QN88C6/I5`。
+> 开源工具链用 datasheet 那个名字，另外必须加 `--vopt family=GW1N-9C`。
 
 ## 文档
 
 | 文件 | 内容 |
 |---|---|
-| [LEARNING.md](LEARNING.md) | **学习路线**。四个阶段 + 每阶段的客观验收标准 |
-| [SPEC.md](SPEC.md) | RV32I 的架构边界与规划，含未确认的开放问题 |
-| [AGENTS.md](AGENTS.md) | AI 开工须知，动手前先读 |
+| [LEARNING.md](LEARNING.md) | **学习路线**。三个阶段 + 每阶段的客观验收标准 + 工具链的坑 |
+| [SPEC.md](SPEC.md) | RV32I 的架构边界与规划 |
+| [AGENTS.md](AGENTS.md) | AI 开工须知 |
 | [LOG.md](LOG.md) / [LOG-INDEX.md](LOG-INDEX.md) | 变更史 |
 | `docs/` | 参考书，不进 git |
 
