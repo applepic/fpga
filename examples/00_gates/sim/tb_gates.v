@@ -1,14 +1,14 @@
 `timescale 1ns / 1ps
 
-// 第 1 课的验收标准。不要改这个文件。
+// Acceptance test for Lesson 1. Do not modify this file.
 //
-// 跑法：
+// Run:
 //     . .\env.ps1
 //     .\scripts\sim.ps1 -Project examples/00_gates
 //
-// 它做两件事：
-//   1. 把 a b 的四种组合都试一遍，逐个检查四个输出对不对
-//   2. 打印一张真值表，你可以拿去和数电课本上的对照
+// It does two things:
+//   1. Tries all four combinations of a and b, checking each of the four outputs
+//   2. Prints a truth table you can compare against your textbook
 
 module tb;
 
@@ -39,7 +39,7 @@ module tb;
 
         for (i = 0; i < 4; i = i + 1) begin
             {a, b} = i[1:0];
-            #10;                    // 等组合逻辑算完
+            #10;                    // let the combinational logic settle
 
             $display("  %b  %b |  %b    %b    %b    %b", a, b, y_and, y_or, y_xor, y_not);
 
@@ -49,26 +49,26 @@ module tb;
             exp_not = ~a;
 
             if (y_and !== exp_and) begin
-                $display("    FAIL y_and 应为 %b，实际 %b", exp_and, y_and);
+                $display("    FAIL y_and expected %b, got %b", exp_and, y_and);
                 errors = errors + 1;
             end
             if (y_or !== exp_or) begin
-                $display("    FAIL y_or  应为 %b，实际 %b", exp_or, y_or);
+                $display("    FAIL y_or  expected %b, got %b", exp_or, y_or);
                 errors = errors + 1;
             end
             if (y_xor !== exp_xor) begin
-                $display("    FAIL y_xor 应为 %b，实际 %b", exp_xor, y_xor);
+                $display("    FAIL y_xor expected %b, got %b", exp_xor, y_xor);
                 errors = errors + 1;
             end
             if (y_not !== exp_not) begin
-                $display("    FAIL y_not 应为 %b，实际 %b", exp_not, y_not);
+                $display("    FAIL y_not expected %b, got %b", exp_not, y_not);
                 errors = errors + 1;
             end
         end
 
         $display("");
-        if (errors == 0) $display("=== 全部通过 ===");
-        else             $display("=== %0d 处不符，看上面的 FAIL 行 ===", errors);
+        if (errors == 0) $display("=== ALL PASS ===");
+        else             $display("=== %0d mismatch(es), see the FAIL lines above ===", errors);
 
         $finish;
     end

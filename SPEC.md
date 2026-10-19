@@ -1,123 +1,128 @@
 ---
-status: 规划中，代码尚未开始
+status: planning, no code yet
 last_updated: 2026-10-18
 ---
 
-# SPEC — RV32I 处理器核
+# SPEC — RV32I processor core
 
-> **本文件是规划，不是既成事实。** 项目目前没有任何 RTL 代码。
-> 开工前先读一遍，把「开放问题」那一节跟用户确认完再动手。
+> **This file is a plan, not a statement of fact.** The project contains no RTL yet.
+> Read it once before starting, and settle the "Open questions" section with the user first.
 
-## 前置条件
+## Prerequisites
 
-用户要从头学 FPGA，所以这个项目**不是第一步**。先走完 [LEARNING.md](LEARNING.md) 的阶段 A、B：
+The user is learning FPGA from zero, so this project is **not the first step**.
+Complete phases A and B in [LEARNING.md](LEARNING.md) first:
 
-| 阶段 | 内容 | 通过标志 |
+| Phase | Content | Pass condition |
 |---|---|---|
-| A | 时序逻辑 | 计数器 + 分频器 + 状态机走马灯，仿真波形正确 |
-| B | 通信 | UART 收发双向跑通，按键消抖有仿真证据 |
+| A | Sequential logic | Counter + clock divider + button-driven marquee, waveforms correct |
+| B | Communication | UART transmit and receive working both ways, debouncing proven in simulation |
 
-**2026-10-18 调整**：原前置条件是「阶段 0 到 3」，其中 FIFO 与 Block RAM 被列为硬性前置。
-核对后确认单周期 RV32I 不需要手写 FIFO（存储器用 `reg` 数组综合进 BSRAM 即可），
-已把 FIFO 移到阶段 C 之后的选做。理由写在 `LEARNING.md` 的「为什么改了顺序」。
+**Changed 2026-10-18**: the original prerequisite was "phases 0 through 3", which listed FIFO and
+Block RAM as hard requirements. On review, a single-cycle RV32I does not need a hand-written FIFO
+(memories synthesise into BSRAM from a plain `reg` array), so FIFO moved to optional work after
+phase C. Reasoning in "Why the order changed" in `LEARNING.md`.
 
-**A、B 全部通过再开工。** 跳过它们直接写 RV32I，等于在没学会走路时跑马拉松。
+**Do not start until A and B are complete.** Skipping them and writing RV32I directly is running a
+marathon before you can walk.
 
-## 目标
+## Goal
 
-用 Verilog 实现一个 RV32I 处理器核，在 Tang Nano 9K 上跑通。
+Implement an RV32I processor core in Verilog and run it on the Tang Nano 9K.
 
-**要达成的**
-- 完整覆盖 RV32I 基础指令集（37 条），能跑通编译出来的裸机程序
-- 有可复现的仿真验证流程，不靠「上板看起来对了」
-- 综合、布局布线、烧录全流程打通
+**In scope**
+- Full base RV32I instruction set (37 instructions), able to run a compiled bare-metal program
+- A reproducible simulation flow, not "it looked right on the board"
+- Synthesis, place and route, and programming all working end to end
 
-**明确不做的（第一版）**
-- 不做 M / A / F / D 扩展，不做特权态，不做中断和异常
-- 不做缓存，不做 MMU
-- 不做多核
+**Explicitly out of scope (version one)**
+- No M / A / F / D extensions, no privileged mode, no interrupts or exceptions
+- No caches, no MMU
+- No multi-core
 
-先跑通最小闭环，再谈扩展。
+Get the minimal loop working first, then discuss extensions.
 
-## 技术选型
+## Technology choices
 
-| 项 | 选择 | 状态 |
+| Item | Choice | Status |
 |---|---|---|
-| 目标板 | **Tang Nano 9K**（GW1NR-LV9QN88PC6/I5） | ✅ 2026-10-12 用户确认 |
-| 板载资源 | 8640 LUT4 / 6480 FF / 26 个 BSRAM（468K bits）/ 32Mbit Flash / 64Mbit PSRAM | 已核 |
-| 时钟 | 板载晶振 27 MHz | 已核 |
-| 调试器 | 板载 BL702，提供 USB-JTAG + USB-UART | 已核 |
-| 语言 | Verilog | 已定 |
-| 仿真 | Icarus Verilog 或 Verilator | **待定**，见开放问题 |
-| 综合 / 布局布线 | yosys + nextpnr-himbaechel（`--device GW1NR-LV9QN88PC6/I5`） | 已具备 |
-| 烧录 | openFPGALoader | 已具备 |
-| 厂商 IDE | Gowin EDA（交叉验证用） | 已装 |
+| Target board | **Tang Nano 9K** (GW1NR-LV9QN88PC6/I5) | Confirmed by user 2026-10-12 |
+| Board resources | 8640 LUT4 / 6480 FF / 26 BSRAM (468K bits) / 32 Mbit Flash / 64 Mbit PSRAM | Verified |
+| Clock | 27 MHz on-board oscillator | Verified |
+| Debugger | On-board BL702, provides USB-JTAG and USB-UART | Verified |
+| Language | Verilog | Decided |
+| Simulation | iverilog | Decided 2026-10-18, see open questions |
+| Synthesis / place and route | yosys + nextpnr-himbaechel (`--device GW1NR-LV9QN88PC6/I5`) | Available |
+| Programming | openFPGALoader | Available |
+| Vendor IDE | Gowin EDA (for cross-checking) | Installed |
 
-工具链在 `C:\Local_Data\oss-cad-suite`，版本 `20260518`。
+Toolchain lives in `C:\Local_Data\oss-cad-suite`, version `20260518`.
 
-> **器件型号的坑**：datasheet 写的是 `GW1NR-LV9QN88PC6/I5`，
-> 但 Gowin IDE 里要选 `GW1NR-UV9QN88C6/I5`，名字不同。
+> **Device name trap**: the datasheet says `GW1NR-LV9QN88PC6/I5`,
+> but the Gowin IDE expects `GW1NR-UV9QN88C6/I5`.
 
-## 架构方向（暂定）
+## Architecture direction (tentative)
 
-### 第一步：单周期
+### Step one: single cycle
 
-先做单周期实现。理由是调试成本最低，每条指令的行为可以单独看波形确认。
-单周期跑通之后再决定要不要改流水线。
+Start with a single-cycle implementation. The debugging cost is lowest because each instruction's
+behaviour can be confirmed independently in the waveform. Decide about pipelining only after the
+single-cycle version works.
 
-模块划分（暂定）：
+Module breakdown (tentative):
 
 ```
 rv32i/
 ├── rtl/
-│   ├── rv32i_core.v     顶层，把下面几个接起来
-│   ├── pc.v             程序计数器
-│   ├── ifetch.v         取指（先直接接指令存储器，不加 cache）
-│   ├── decode.v         译码 + 立即数生成
-│   ├── regfile.v        32 × 32 寄存器堆
-│   ├── alu.v            算术逻辑单元
-│   ├── lsu.v            访存（load / store）
-│   └── control.v        控制信号生成
+│   ├── rv32i_core.v     top level, wires the modules together
+│   ├── pc.v             program counter
+│   ├── ifetch.v         instruction fetch (straight to instruction memory, no cache)
+│   ├── decode.v         decode and immediate generation
+│   ├── regfile.v        32 x 32 register file
+│   ├── alu.v            arithmetic logic unit
+│   ├── lsu.v            memory access (load / store)
+│   └── control.v        control signal generation
 ├── sim/
-│   ├── tb_core.v        测试平台
-│   └── programs/        测试用汇编 / 机器码
-└── README.md            怎么跑
+│   ├── tb_core.v        testbench
+│   └── programs/        test assembly and machine code
+└── README.md            how to run it
 ```
 
-**约束文件和脚本不放在 `rv32i/` 下。** 仓库级的 `constraints/tangnano9k.cst`
-和 `scripts/` 对所有项目通用，`build.ps1 -Project rv32i` 会自己找过去。
-这样换板子时只改 `constraints/` 一处，符合「边界与原则」里那条。
+**Constraints and scripts do not live under `rv32i/`.** The repo-level `constraints/tangnano9k.cst`
+and `scripts/` apply to every project, and `build.ps1 -Project rv32i` finds them automatically.
+That keeps the "swap the board by editing one directory" principle from "Boundaries and principles".
 
-### 验证策略
+### Verification strategy
 
-分三层，缺一层都不算通过：
+Three layers. Missing any one means not done:
 
-1. **单元仿真**：每个模块单独跑 testbench，覆盖边界情况
-2. **指令级仿真**：跑一份覆盖全部 37 条指令的测试程序，逐条比对寄存器终值
-3. **上板**：综合烧录后，用 UART 输出结果，确认和仿真一致
+1. **Unit simulation**: each module has its own testbench covering boundary cases
+2. **Instruction-level simulation**: a test program covering all 37 instructions, comparing final register values
+3. **On the board**: after synthesis and programming, output results over UART and confirm they match simulation
 
-> 仿真过不了的，上板也不会真的对。
+> What fails in simulation will not magically work on the board.
 
-## 开放问题（开工前必须和用户确认）
+## Open questions (settle with the user before starting)
 
-> **2026-10-18 已定三条**，只剩第 4 条真正待定。
+> **Three were settled on 2026-10-18.** Only item 4 genuinely remains.
 
-1. ~~单周期起步，还是直接上流水线？~~ → **单周期**。理由见下方「架构方向」
-2. ~~仿真器用哪个？~~ → **iverilog**。Verilator 的 perl 包装脚本在本机 Windows 上跑不起来，
-   只能直接调 `verilator_bin.exe`；现在没有速度需求，统一用 iverilog 少一个变量
-3. ~~要不要用现成的指令集测试集~~ → **不用 riscv-tests**。本机没有 RISC-V 交叉编译器，
-   而自己手写 37 条指令的机器码测试程序本身就是理解指令编码的过程，
-   对「学会」这个目标比对「跑分」更有用
-4. **第一步的验收标准**是什么？候选：跑通一个往 UART 打 "hello" 的裸机程序。
-   **这条等阶段 B 通过后再定**，现在定没有足够信息
+1. ~~Single cycle first, or pipelined straight away?~~ → **Single cycle.** Reasoning under "Architecture direction"
+2. ~~Which simulator?~~ → **iverilog.** Verilator's perl wrapper does not run on this Windows machine;
+   only `verilator_bin.exe` works directly. There is no speed requirement yet, so standardising on
+   iverilog removes one variable
+3. ~~Use an existing instruction test suite?~~ → **No riscv-tests.** There is no RISC-V cross compiler
+   on this machine, and hand-writing machine code for 37 instructions is itself the process of
+   understanding instruction encoding, which serves the learning goal better than a benchmark score
+4. **What is the acceptance criterion for step one?** Candidate: a bare-metal program that prints
+   "hello" over UART. **Decide this after phase B**, since there is not enough information now
 
-> 板子型号已于 2026-10-12 确认，从开放问题里移出。
-> 「单周期还是流水线」在 AGENTS.md 里也属于「改前必须确认」的范围，
-> 这次的结论是单周期，符合 SPEC 里「明确不做」的边界。
+> The board model was confirmed on 2026-10-12 and is no longer an open question.
+> "Single cycle or pipelined" is also listed under "confirm before changing" in AGENTS.md;
+> the conclusion here is single cycle, which stays within the "out of scope" boundary in this file.
 
-## 边界与原则
+## Boundaries and principles
 
-- **先跑通再优化。** 性能、面积、功耗都是第二轮的事
-- **每个模块可单独仿真。** 不能单独测的模块说明耦合太紧，要拆
-- **约束文件和 RTL 分开。** 换板子时只改 `constraints/`
-- **仿真和上板必须给出一致的证据**，不接受「应该没问题」
+- **Make it work, then optimise.** Performance, area and power are second-round concerns
+- **Every module must be simulatable on its own.** A module that cannot be tested alone is too coupled and needs splitting
+- **Keep constraints separate from RTL.** Swapping boards touches only `constraints/`
+- **Simulation and hardware must produce consistent evidence.** "It should be fine" is not acceptable

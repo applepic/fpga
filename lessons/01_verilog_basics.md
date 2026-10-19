@@ -1,90 +1,90 @@
-# 第 1 课：Verilog 里"写代码"到底在写什么
+# Lesson 1: What you are actually writing in Verilog
 
-**这一课很短，但它是后面所有内容的地基。** 大约 20 分钟。
+**This lesson is short, but everything else stands on it.** About 20 minutes.
 
 ---
 
-## 1.1 一句话：你不是在写程序，你在画电路
+## 1.1 One sentence: you are not writing a program, you are drawing a circuit
 
-C 语言里 `int x = a + b;` 的意思是"CPU 现在做一次加法，把结果存起来"。
-它是**一条一条按顺序执行的指令**。
+In C, `int x = a + b;` means "the CPU performs one addition right now and stores the result."
+It is an **instruction executed in sequence**.
 
-Verilog 的 `assign y = a & b;` 意思是"这里**存在**一个与门，它的两个输入接 a 和 b，输出叫 y"。
-它描述的是**电路长什么样**，不是"先做这个再做那个"。
+In Verilog, `assign y = a & b;` means "an AND gate **exists** here; its two inputs are wired to
+`a` and `b`, and its output is called `y`." It describes **what the circuit looks like**,
+not "do this first, then that."
 
-这个差别决定了后面所有事：
+That difference drives everything that follows:
 
 | | C / Python | Verilog |
 |---|---|---|
-| 你写的是 | 操作序列 | 电路结构 |
-| 什么时候算 | 执行到那一行时 | **一直算着**，输入一变输出就跟着变 |
-| `a = b` 的含义 | 把 b 的值复制给 a | 用一根导线把 a 接到 b（**顺序无关**） |
+| What you write | A sequence of operations | A circuit structure |
+| When it computes | When execution reaches that line | **Continuously.** Change an input, the output follows |
+| Meaning of `a = b` | Copy the value of b into a | Connect a to b with a wire (**order irrelevant**) |
 
-**最容易踩的坑**：写惯了 C 的人会以为 `assign` 里的语句有先后顺序。
-没有。下面两个模块**完全等价**：
+**The trap most people hit**: if you come from C, you expect `assign` statements to run in order.
+They do not. These two modules are **exactly equivalent**, and synthesise to identical circuits:
 
 ```verilog
-// 写法一
+// Version one
 assign y_and = a & b;
 assign y_or  = a | b;
 
-// 写法二
+// Version two
 assign y_or  = a | b;
 assign y_and = a & b;
 ```
 
-综合出来的电路一模一样。
-
-## 1.2 两个最基本的词：`wire` 和 `assign`
+## 1.2 The two most basic words: `wire` and `assign`
 
 ```verilog
-wire y;              // 声明一根导线，叫 y
-assign y = a & b;    // 这根导线接在一个与门的输出上
+wire y;              // Declare a wire named y
+assign y = a & b;    // Connect that wire to the output of an AND gate
 ```
 
-- **`wire`** = 一根导线。它**不能存储**任何东西，只能把信号从一头传到另一头
-- **`assign`** = "持续赋值"。右边一变，左边立刻跟着变，**没有延迟、没有时钟**
+- **`wire`** is a piece of wire. It **cannot store** anything; it only carries a signal from one point to another.
+- **`assign`** is a "continuous assignment". The moment the right side changes, the left side changes.
+  **No delay, no clock.**
 
-这两个合起来叫**组合逻辑**（combinational logic）：输出只由当前的输入决定，跟过去发生过什么无关。
+Together these describe **combinational logic**: the output depends only on the current inputs,
+and has no memory of what happened before.
 
-## 1.3 位运算符：跟 C 几乎一样，但有一个关键区别
+## 1.3 Bitwise operators, and one critical difference
 
-| 运算符 | 含义 | 例子 |
+| Operator | Meaning | Example |
 |---|---|---|
-| `&` | 按位与 | `4'b1100 & 4'b1010` = `4'b1000` |
-| `\|` | 按位或 | `4'b1100 \| 4'b1010` = `4'b1110` |
-| `^` | 按位异或 | `4'b1100 ^ 4'b1010` = `4'b0110` |
-| `~` | **按位取反** | `~4'b1100` = `4'b0011` |
+| `&` | bitwise AND | `4'b1100 & 4'b1010` = `4'b1000` |
+| `\|` | bitwise OR | `4'b1100 \| 4'b1010` = `4'b1110` |
+| `^` | bitwise XOR | `4'b1100 ^ 4'b1010` = `4'b0110` |
+| `~` | **bitwise NOT** | `~4'b1100` = `4'b0011` |
 
-**关键区别**：Verilog 有两个"非"。
+**The critical difference**: Verilog has two kinds of "not".
 
-- `~a` 是**按位取反**，每一位都翻转。`~4'b1100` = `4'b0011`
-- `!a` 是**逻辑非**，只看"是不是零"。`!4'b1100` = `1'b0`，`!4'b0000` = `1'b1`
+- `~a` is **bitwise negation**. Every bit flips. `~4'b1100` = `4'b0011`
+- `!a` is **logical negation**. It only asks "is this zero?" `!4'b1100` = `1'b0`
 
-在 C 里 `!` 和 `~` 也都有，但很多人只用过 `!`。
-**硬件里你要的基本都是 `~`**，因为你在处理的是每一位都有意义的信号线。
+Both exist in C too, but many people only ever use `!`.
+**In hardware you almost always want `~`**, because you are handling signal lines where every bit matters.
 
-同理还有 `&&`（逻辑与，输出 1 位）和 `&`（按位与，输出还是原来的位宽）。
-**做硬件用 `&`，不要用 `&&`。**
+The same split applies to `&&` (logical AND, produces 1 bit) versus `&` (bitwise AND, keeps the original width).
+**Use `&` in hardware. Never `&&`.**
 
-## 1.4 数字怎么写
+## 1.4 How to write numbers
 
-Verilog 的常量写法是 `<位宽>'<进制><值>`：
+Verilog literals are `<width>'<base><value>`:
 
 ```verilog
-4'b1100        // 4 位二进制 1100
-8'hFF          // 8 位十六进制 FF
-3'd5           // 3 位十进制 5
-1'b0           // 1 位 0
+4'b1100        // 4-bit binary 1100
+8'hFF          // 8-bit hex FF
+3'd5           // 3-bit decimal 5
+1'b0           // 1 bit, value 0
 ```
 
-`'b` 二进制、`'h` 十六进制、`'d` 十进制、`'o` 八进制。
+`'b` binary, `'h` hex, `'d` decimal, `'o` octal.
 
-**位宽要写清楚。** 不写位宽的 `5` 是 32 位整数，塞进 4 位信号会被截断，这种 bug 极难查。
+**Always state the width.** A bare `5` is a 32-bit integer. Assigning it to a 4-bit signal truncates it,
+and that kind of bug is very hard to find.
 
-## 1.5 模块：电路的"芯片"
-
-一个 Verilog 模块就是一个黑盒子：
+## 1.5 A module is a "chip" in your circuit
 
 ```verilog
 module gates (
@@ -96,51 +96,54 @@ module gates (
 endmodule
 ```
 
-- `module` ... `endmodule` 之间是盒子的内容
-- `input` / `output` 是盒子上的引脚
-- **模块名和端口名不要随便改**：别的文件（比如 testbench）会按名字找它们
+- Everything between `module` and `endmodule` is the inside of the box
+- `input` / `output` are the pins on the box
+- **Do not rename the module or its ports casually.** Other files (testbenches) find them by name
 
-一个 `.v` 文件里可以放多个模块，但**文件名一般和顶层模块同名**，这是惯例，不是语法要求。
+One `.v` file can hold several modules, but by convention the filename matches the top module.
+That is a convention, not a language rule.
 
-## 1.6 仿真：你怎么知道电路是对的
+## 1.6 Simulation: how you know the circuit is correct
 
-写 FPGA 和写软件最大的不同：**你没法 `printf` 调试**。
+The biggest difference from writing software: **you cannot `printf` in hardware**.
 
-上板之后你只能看到 6 个 LED 和一个串口。想看内部某个信号是不是对的，看不到。
+Once the design is on the board, all you can see is six LEDs and one serial port.
+If you want to know whether some internal signal is correct, you cannot look at it.
 
-所以行业标准做法是**先仿真**：在电脑上跑一个假的电路，把每个时刻每个信号的值都记下来，画成波形。
+So the industry standard is **simulate first**: run a fake version of the circuit on your computer,
+record the value of every signal at every moment, and plot it as a waveform.
 
 ```
-你写的电路 (rtl/*.v)  +  测试台 (sim/tb_*.v)
-                              ↓
-                         iverilog 编译
-                              ↓
-                          vvp 运行
-                              ↓
-                    打印文字 + tb.vcd 波形文件
+your circuit (rtl/*.v)  +  testbench (sim/tb_*.v)
+                              |
+                         iverilog compile
+                              |
+                          vvp run
+                              |
+                    printed text + tb.vcd waveform
 ```
 
-**测试台（testbench）** 本身也是 Verilog，但它不是要被综合成电路的，
-它只是一个"程序"，负责给输入加激励、检查输出对不对。所以测试台里可以写 `for` 循环、
-`$display` 打印、`#10` 等待，这些在真正的电路里都是不存在的。
+A **testbench** is itself written in Verilog, but it is never synthesised into a circuit.
+It is just a program: it drives the inputs and checks the outputs. That is why a testbench can contain
+`for` loops, `$display` printing, and `#10` delays. None of those exist in real hardware.
 
-`tb_*.v` 里的 `tb` 是 testbench 的缩写，这是行业惯例。
+The `tb_` prefix on `tb_*.v` stands for testbench. That is a convention.
 
-## 1.7 这一课的小结
+## 1.7 Summary
 
-| 概念 | 记住什么 |
+| Concept | Remember this |
 |---|---|
-| `assign` | 持续赋值，右边变左边跟着变，**永远在算** |
-| `wire` | 导线，不存储 |
-| `&` `\|` `^` `~` | 按位运算，**用 `~` 不要用 `!`** |
-| 顺序 | 模块内 `assign` 语句**顺序无关** |
-| 仿真 | 上板前唯一的验证手段，必须用 |
+| `assign` | Continuous assignment. Right side changes, left side follows. **Always computing** |
+| `wire` | Wire. Stores nothing |
+| `&` `\|` `^` `~` | Bitwise. **Use `~`, not `!`** |
+| Order | `assign` statements inside a module are **order independent** |
+| Simulation | The only verification tool you have before going to hardware. Use it |
 
 ---
 
-## 你的任务
+## Your task
 
-在 `examples/00_gates/rtl/gates.v` 里实现四个门：
+Implement four gates in `examples/00_gates/rtl/gates.v`:
 
 ```verilog
 module gates (
@@ -153,7 +156,7 @@ module gates (
 );
 ```
 
-跑：
+Run:
 
 ```powershell
 cd C:\Local_Data\Dev\fpga
@@ -161,9 +164,9 @@ cd C:\Local_Data\Dev\fpga
 .\scripts\sim.ps1 -Project examples/00_gates
 ```
 
-**现在跑会报 `Unknown module type: gates`**，因为文件还不存在。这就是起点。
+**Right now this reports `Unknown module type: gates`**, because the file does not exist yet. That is your starting point.
 
-**通过的标准**：看到
+**The pass condition** is seeing
 
 ```
   a  b | and  or  xor  not
@@ -173,12 +176,14 @@ cd C:\Local_Data\Dev\fpga
   1  0 |  0    1    1    0
   1  1 |  1    1    0    0
 
-=== 全部通过 ===
+=== ALL PASS ===
 ```
 
-这张表你要能**自己手推出来**，不是背下来的。`y_not` 那列为什么是 1,1,0,0？因为 `~0 = 1`。
+You must be able to **derive this table yourself**, not memorise it.
+Why is the `y_not` column 1,1,0,0? Because `~0 = 1`.
 
-**做完之后回来告诉我**，我出两道题检验。通过了才进第 2 课（`always` 块和时钟）。
+**Come back and tell me when you are done**, and I will set you two questions.
+Only after you pass do we move to Lesson 2 (`always` blocks and clocks).
 
-> 提示：四个 `assign` 就够，一行一个。不要写 `always`，第 2 课才讲。
-> 卡住超过 30 分钟再问我，先自己想。
+> Hint: four `assign` statements, one per line. Do not use `always`; that is Lesson 2.
+> If you are stuck for more than 30 minutes, ask me. Try on your own first.

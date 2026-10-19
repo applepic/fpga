@@ -1,13 +1,13 @@
-# 练习 00：四个基本门
+# Exercise 00: four basic gates
 
-**对应课程**：[第 1 课](../lessons/01_verilog_basics.md)
+**Lesson**: [Lesson 1](../lessons/01_verilog_basics.md)
 
-**这一课的目标不是学会写门电路**（那个太简单了），是让你亲眼看见
-"Verilog 描述的是电路结构，不是执行顺序"。
+**The point of this exercise is not to learn gate logic** (that part is trivial).
+It is to see with your own eyes that **Verilog describes circuit structure, not execution order**.
 
-## 你要写的文件
+## What you write
 
-`rtl/gates.v` —— 现在**不存在**，由你创建。
+`rtl/gates.v`, which **does not exist yet**. You create it.
 
 ```verilog
 module gates (
@@ -20,7 +20,7 @@ module gates (
 );
 ```
 
-## 跑法
+## How to run
 
 ```powershell
 cd C:\Local_Data\Dev\fpga
@@ -28,15 +28,16 @@ cd C:\Local_Data\Dev\fpga
 .\scripts\sim.ps1 -Project examples/00_gates
 ```
 
-## 验收
+## Pass condition
 
-`sim/tb_gates.v` 打印的四种组合全部正确，最后一行是 `=== 全部通过 ===`。
+All four input combinations correct, ending with `=== ALL PASS ===`.
 
-**这个 testbench 是验收标准，不要改它。**
+**The testbench is the acceptance criteria. Do not modify it.**
 
-## 做完之后
+## After it passes
 
-1. 用 `-Open` 看一眼波形（`. .\env.ps1` 之后 `.\scripts\sim.ps1 -Project examples/00_gates -Open`），
-   看 `a` 和 `b` 变化的时候，四个输出是不是**立刻**跟着变，没有任何延迟
-2. 把 `assign` 那几行的顺序打乱，重跑，确认结果完全一样
-3. 回来找我出题
+1. Open the waveform with `-Open` (`. .\env.ps1`, then
+   `.\scripts\sim.ps1 -Project examples/00_gates -Open`). Watch whether the four outputs
+   change **immediately** when `a` or `b` changes, with no delay.
+2. Reorder the `assign` lines, rerun, and confirm the result is identical.
+3. Come back and ask me for the questions.

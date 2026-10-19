@@ -1,158 +1,172 @@
 ---
-status: 进行中
+status: in progress
 last_updated: 2026-10-18
 ---
 
-# FPGA 学习路线（压缩版）
+# FPGA learning route (condensed)
 
-> 目标：从零学会用 Verilog 做 FPGA 设计，最终能独立实现 RV32I 处理器核。
-> 板子：**Tang Nano 9K**（GW1NR-LV9QN88PC6/I5，8640 个 LUT4，27 MHz 板载晶振）
+> Goal: learn FPGA design with Verilog from zero, ending with an RV32I processor core
+> you can implement independently.
+> Board: **Tang Nano 9K** (GW1NR-LV9QN88PC6/I5, 8640 LUT4, 27 MHz on-board oscillator)
 >
-> **2026-10-18 改版**：原版四个阶段里有一步（FIFO）挡在 RV32I 前面，
-> 而它对 RV32I 不是必需的。改版把它挪到 RV32I 之后。理由见文末「为什么改了顺序」。
+> **Revised 2026-10-18**: the original route had one step (FIFO) standing in front of RV32I
+> that RV32I does not actually need. It moved behind RV32I. Reasoning at the end of this file.
+>
+> **This file is the route. For the actual sequence of lessons, see [lessons/README.md](lessons/README.md).**
 
-## 三个阶段
+## Three phases
 
-| 阶段 | 内容 | 验收 |
+| Phase | Content | Acceptance |
 |---|---|---|
-| **A. 能写时序逻辑** | `wire`/`assign`、`always @(posedge clk)`、复位、分频、计数器、状态机 | 计数器 + 分频器 + 按键走马灯，全部有仿真波形 |
-| **B. 能跟外界说话** | UART 发送、UART 接收、按键消抖 | 板子发字符串到电脑；电脑发字符板子收到并显示 |
-| **C. RV32I** | 单周期处理器核，见 [SPEC.md](SPEC.md) | 跑通 37 条指令的测试程序，UART 输出结果与仿真一致 |
+| **A. Write sequential logic** | `wire`/`assign`, `always @(posedge clk)`, reset, clock division, counters, state machines | Counter + divider + button-driven marquee, all with simulation evidence |
+| **B. Talk to the outside world** | UART transmit, UART receive, button debouncing | Board sends a string to the PC; PC sends a character and the board displays it |
+| **C. RV32I** | Single-cycle core, see [SPEC.md](SPEC.md) | 37-instruction test program runs, UART output matches simulation |
 
-**每一阶段的验收都必须由别人出题检验。** 你的已知问题是容易把「学过」当成「掌握了」，
-所以验收不能自己说了算。做完一阶段跟我说，我出题。
+**Every phase is signed off by me setting questions.** Your known failure mode is treating
+"seen it" as "mastered it", so you do not get to declare your own pass.
+Tell me when you finish a phase and I will set the questions.
 
-## 环境：怎么跑
+## Environment
 
-所有命令在仓库根目录（`C:\Local_Data\Dev\fpga`）执行。
+All commands run from the repo root (`C:\Local_Data\Dev\fpga`).
 
 ```powershell
-. .\env.ps1                                          # 必须带前面的点
-.\scripts\sim.ps1   -Project examples/blinky         # 仿真
-.\scripts\build.ps1 -Project examples/blinky         # 综合 + 布局布线 + 生成 .fs
-.\scripts\flash.ps1 -Project examples/blinky         # 烧到 SRAM（掉电丢）
-.\scripts\flash.ps1 -Project examples/blinky -Flash  # 烧到 Flash（掉电保留）
+. .\env.ps1                                          # the leading dot is required
+.\scripts\sim.ps1   -Project examples/00_gates       # simulate
+.\scripts\build.ps1 -Project examples/00_gates       # synthesise, place and route, build .fs
+.\scripts\flash.ps1 -Project examples/00_gates       # program SRAM (lost on power cycle)
+.\scripts\flash.ps1 -Project examples/00_gates -Flash  # program Flash (persists)
 ```
 
-**`env.ps1` 前面那个点不能省。** 不 dot-source 的话 PATH 只在子进程里有效，
-下一条命令又找不到工具。这是 PowerShell 的规则，不是我们的约定。
+**The leading dot on `env.ps1` is not optional.** Without dot-sourcing, the PATH change only
+applies to a child process, and the next command cannot find the tools.
+That is a PowerShell rule, not our convention.
 
-### 目录约定
+### Directory layout
 
 ```
 fpga/
-├── env.ps1                    工具链环境
-├── constraints/tangnano9k.cst 整块板子的引脚（所有项目共用）
+├── env.ps1                    toolchain environment
+├── constraints/tangnano9k.cst pin assignments for the whole board (shared by all projects)
 ├── scripts/                   build / sim / flash
-├── infra/toolchain_smoke/     工具链自检，不是学习材料
-├── lessons/                   课程正文，一课一个 .md
-├── examples/                  学习过程中的练习，一课一个目录
-│   └── NN_名字/
-│       ├── rtl/*.v            设计（由你填）
-│       ├── sim/tb_*.v         testbench（验收标准，不许改）
-│       └── build/             产物（不进 git）
-└── rv32i/                     阶段 C
+├── infra/toolchain_smoke/     toolchain self-test, not learning material
+├── lessons/                   course text, one .md per lesson
+├── examples/                  exercises, one directory per lesson
+│   └── NN_name/
+│       ├── rtl/*.v            design (you fill this in)
+│       ├── sim/tb_*.v         testbench (acceptance criteria, do not modify)
+│       └── build/             artifacts (not in git)
+└── rv32i/                     phase C
 ```
 
-一个练习 = 一个目录。`rtl/` 放设计，`sim/` 放 testbench，`build/` 自动生成且被 `.gitignore` 忽略。
+One exercise is one directory. `rtl/` holds the design, `sim/` holds the testbench,
+`build/` is generated and git-ignored.
 
-**这份 `LEARNING.md` 是路线，具体怎么走看 [lessons/README.md](lessons/README.md)。**
-路线说「阶段 A 要会时序逻辑」，课程说「第 2 课讲 `always`，第 3 课写计数器」。
+### Three toolchain traps (all hit for real, all fixed in the scripts)
 
-### 三个工具链的坑（都踩过，已修进脚本）
+1. **Adding only `bin\` to PATH crashes the tools.** yosys / nextpnr / openFPGALoader depend on
+   DLLs in the sibling `lib\` directory. Without them the exit code is `-1073741515` (0xC0000135)
+   and there is **no error message at all**. iverilog happens not to need them, so it runs fine
+   and misleads you into thinking the toolchain is healthy. `env.ps1` adds `lib\` as well.
+2. **`--cst` is not a nextpnr option.** Constraints go in as `--vopt cst=xxx.cst`,
+   and GW1N-9 additionally requires `--vopt family=GW1N-9C`, otherwise it reports
+   `For the GW1N-9 series you need to specify --vopt family=`.
+3. **`--report` writes JSON, not a text report.** Reading Fmax and utilisation requires `ConvertFrom-Json`.
 
-1. **只把 `bin\` 加进 PATH 会崩。** yosys / nextpnr / openFPGALoader 依赖同目录
-   `lib\` 下的 DLL，缺了它们退出码是 `-1073741515`（0xC0000135），**没有任何错误信息**。
-   iverilog 恰好不依赖，所以它会正常跑，把人误导成「工具链没问题」。`env.ps1` 已经把 `lib\` 加上了。
-2. **`--cst` 不是 nextpnr 的参数。** 约束要写成 `--vopt cst=xxx.cst`，
-   而且 GW1N-9 必须再加 `--vopt family=GW1N-9C`，否则报
-   `For the GW1N-9 series you need to specify --vopt family=`。
-3. **`--report` 写出的是 JSON，不是文本报告。** 想读 Fmax 和资源占用得 `ConvertFrom-Json`。
+## Resources: three, with different jobs
 
-## 资源：三份，分工不同
-
-| 资源 | 定位 | 怎么用 |
+| Resource | Role | How to use it |
 |---|---|---|
-| [Gisselquist 的 10 课](https://zipcpu.com/tutorial/) | **主线** | 按顺序做，每课有可下载示例 |
-| Readler《Verilog by Example》（114 页） | **语法速查** | 卡住时查对应章节，**不要从头读到尾** |
-| [Sipeed Wiki](https://wiki.sipeed.com/hardware/zh/tang/Tang-Nano-9K/Nano-9K.html) | **板子相关** | 只在需要碰硬件时查 |
+| [Gisselquist's 10 lessons](https://zipcpu.com/tutorial/) | **Main line** | Work through in order; each lesson has downloadable examples |
+| Readler, *Verilog by Example* (114 pages) | **Syntax reference** | Look up the relevant chapter when stuck. **Do not read cover to cover** |
+| [Sipeed Wiki](https://wiki.sipeed.com/hardware/zh/tang/Tang-Nano-9K/Nano-9K.html) | **Board-specific** | Only when you touch hardware |
 
-为什么这么分：Gisselquist 把「语言 + 工具 + 调试」绑在一起教，这正是自学者最容易断的地方。
-Readler 是纯语法，单独读容易变成「看懂了但写不出来」。
+Why split this way: Gisselquist binds language, tooling and debugging together, which is exactly
+where self-learners fall through. Readler is pure syntax, and reading it alone tends to produce
+"I understood it but I cannot write it".
 
-## 阶段 A：能写时序逻辑
+## Phase A: write sequential logic
 
-**做什么**：把「代码怎么变成电路」这件事搞明白。
+**What you do**: get clear on how code becomes a circuit.
 
-**资源**：Gisselquist L01（wires）、L02（registers & blinky）、L03（FSM）；Readler 第 2、3、4 章
+**Resources**: Gisselquist L01 (wires), L02 (registers and blinky), L03 (FSM); Readler chapters 2, 3, 4
 
-**验收**（全部要仿真波形）：
-1. 4 位二进制计数器，从 0 数到 15 再回 0
-2. 27 MHz 到 1 Hz 的分频器，让 LED 一秒一闪
-3. 按键控制走马灯：按一下换一格，且**按一次只动一格**（这个先不做消抖，阶段 B 再补）
-4. 口头解释：为什么 `reg` 不等于「寄存器」，`always @(*)` 和 `always @(posedge clk)` 差在哪
+**Acceptance** (all require simulation evidence):
 
-**一个具体的坑**：仿真里 27 MHz 到 1 Hz 要跑 2700 万个时钟周期，
-波形文件会大到打不开。**仿真时把分频系数改小**（比如 27），上板前改回真实值。
-这是行业常规做法，不是作弊。
+1. 4-bit binary counter, 0 through 15 and back to 0
+2. 27 MHz to 1 Hz divider so an LED blinks once per second
+3. Button-driven marquee: each press advances one position, and **one press advances exactly one**
+   (no debouncing yet; that comes in phase B)
+4. Verbal explanation: why `reg` is not a register, and how `always @(*)` differs from `always @(posedge clk)`
 
-## 阶段 B：能跟外界说话
+**A concrete trap**: simulating 27 MHz down to 1 Hz requires 27 million clock cycles, and the
+waveform file becomes too large to open. **Scale the divisor down for simulation** (say, to 27)
+and restore the real value before going to hardware. That is standard practice, not cheating.
 
-**做什么**：让板子和电脑交换数据。
+## Phase B: talk to the outside world
 
-**资源**：Gisselquist L05 / L06 / L09（UART 收发）、L07（按键消抖）
+**What you do**: get the board and the PC exchanging data.
 
-**验收**：
-1. **串口发送**：板子每 0.5 秒发一次 `hello`，电脑串口助手收到
-2. **串口接收**：电脑发一个字符，板子收到后把它的 ASCII 码用 6 个 LED 显示出来
-3. **按键消抖**：用仿真证明，机械抖动（模拟成一串快速跳变）只触发一次
+**Resources**: Gisselquist L05 / L06 / L09 (UART transmit and receive), L07 (button debouncing)
 
-**串口参数固定成 115200 8N1**，后面 RV32I 要靠它输出结果，先把它调稳。
+**Acceptance**:
 
-**接线**：板载 BL702 已经引出了 USB-UART，`uart_tx` = 引脚 17，`uart_rx` = 引脚 18。
-插上 USB 线，电脑上会出现一个 COM 口（设备管理器里看）。
+1. **Transmit**: the board sends `hello` every 0.5 s and the PC serial terminal receives it
+2. **Receive**: the PC sends one character; the board displays its ASCII code on the six LEDs
+3. **Debouncing**: simulation proves that mechanical bounce (a burst of fast transitions) triggers only once
 
-## 阶段 C：RV32I
+**Fix the serial parameters at 115200 8N1.** RV32I will rely on this link to report results,
+so get it stable now.
 
-规格见 [SPEC.md](SPEC.md)。前提是 A、B 全部通过。
+**Wiring**: the on-board BL702 already exposes USB-UART. `uart_tx` = pin 17, `uart_rx` = pin 18.
+Plug in USB and a COM port appears in Device Manager.
 
-## 为什么改了顺序（2026-10-18）
+## Phase C: RV32I
 
-原版阶段 3 是「按键 + Block RAM + UART + FIFO」，要求 FIFO 跑通才进 RV32I。
-问题在于：**RV32I 的第一版不需要 FIFO。**
+Specification in [SPEC.md](SPEC.md). Requires phases A and B to be complete.
 
-- 单周期 RV32I 的指令存储器和数据存储器是**组合读的**（`assign dout = mem[addr]`），
-  用 `reg [31:0] mem[0:255]` 数组就够了，综合工具会把它塞进 BSRAM，不需要你手写 FIFO
-- UART 是单向输出（把结果打出来），也不需要 FIFO
-- FIFO 真正用得上是在「UART 收发都要缓存」或者「做流水线要指令队列」的时候，那是第二轮的事
+## Why the order changed (2026-10-18)
 
-**所以 FIFO 从「前置条件」降级成「阶段 C 之后的选做」。** 这不是降低标准，
-是把挡在目标前面、而目标又不需要的那一步挪开。
+The original phase 3 was "buttons + Block RAM + UART + FIFO", requiring FIFO to work before RV32I.
+The problem: **the first version of RV32I does not need a FIFO.**
 
-Block RAM 同理：你会在阶段 C 自然地用到它（指令存储器），到时候再学，
-比现在凭空学一个「存储块」有动机得多。
+- The instruction and data memories of a single-cycle RV32I are **read combinationally**
+  (`assign dout = mem[addr]`). A `reg [31:0] mem[0:255]` array is enough; the synthesis tool
+  places it in BSRAM. You do not hand-write a FIFO
+- UART is transmit-only in this phase (dumping results out), so it needs no FIFO either
+- A FIFO becomes genuinely useful when you buffer both directions on the UART, or when you build
+  a pipelined design with an instruction queue. That is second-round work
 
-## 关于仿真：从一开始就用
+**So FIFO moved from "prerequisite" to "optional, after phase C".** This is not a lowered bar.
+It removes a step that blocked the goal without the goal needing it.
 
-Gisselquist 的课用 Verilator，还教 SymbiYosys 形式验证。**不要跳过仿真直接上板。**
+Block RAM is the same story: you will use it naturally in phase C (as instruction memory),
+and learning it there gives you a reason. Learning "a memory block" in the abstract now does not.
 
-理由很实际：上板调试只能靠 LED 和串口，一次改动要等几十秒综合布线。
-仿真里你可以在任意时刻看任意信号的波形，改一行跑一次只要一秒。
-阶段 A 和 B 的验收全部要求「用仿真波形证明」，就是为了把这个习惯立起来。
+## On simulation: use it from day one
 
-**本仓库统一用 iverilog**（比 Verilator 好上手，Gisselquist 的 Verilator 用法可以不管）。
-Verilator 也装了，但它的 perl 包装脚本在 Windows 上跑不起来，直接用 `verilator_bin.exe` 才行。
-需要更快的时候再说。
+Gisselquist uses Verilator and also teaches SymbiYosys formal verification.
+**Do not skip simulation and go straight to hardware.**
 
-## 怎么用这份路线
+The reason is practical: debugging on the board gives you only LEDs and a serial port, and every
+change costs tens of seconds of synthesis and place-and-route. In simulation you can inspect any
+signal at any moment, and a one-line change reruns in a second. Every acceptance item in phases A
+and B demands simulation evidence specifically to build that habit.
 
-1. **按阶段推进，不要按周推进。** 一个阶段的验收没过，不进下一个阶段
-2. **每个阶段结束时找我出题检验。** 不能自己说了算
-3. **卡住超过 30 分钟就看示例代码。** 不要硬扛，那是浪费时间
-4. 时间投入按 `ai-profile/profile/personal.md` 的实测值排：**一天 2 到 3 块，每块 2.5 到 3 小时**
+**This repo standardises on iverilog** (easier to start with; you can ignore Gisselquist's Verilator
+setup). Verilator is installed, but its perl wrapper does not run on this Windows machine; only
+`verilator_bin.exe` works directly. Revisit if you need more speed.
 
-## 参考文件
+## How to use this route
 
-- 书：`docs/Verilog-by-Example_Readler-2011.pdf`（6 MB，不进 git）
-- 项目规格：[SPEC.md](SPEC.md)
-- 变更史：[LOG.md](LOG.md)
+1. **Advance by phase, not by week.** If a phase's acceptance criteria are unmet, do not start the next one
+2. **Ask me to set questions at the end of each phase.** You do not grade yourself
+3. **Stuck for more than 30 minutes? Look at example code.** Do not grind. That wastes time
+4. Time budget follows the measured values in `ai-profile/profile/personal.md`:
+   **2 to 3 blocks per day, 2.5 to 3 hours per block**
+
+## Reference files
+
+- Book: `docs/Verilog-by-Example_Readler-2011.pdf` (6 MB, not in git)
+- Specification: [SPEC.md](SPEC.md)
+- Change history: [LOG.md](LOG.md)

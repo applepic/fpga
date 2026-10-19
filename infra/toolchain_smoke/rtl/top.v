@@ -1,18 +1,19 @@
-// 工具链自检用，不是学习材料。
+// For toolchain self-test only. Not learning material.
 //
-// 这个设计的唯一作用是：在你写第一行自己的 Verilog 之前，证明
-// 「综合 -> 布局布线 -> 打包 -> 烧录」整条链是通的。
-// 它跑通 = 工具链没问题，之后任何失败都是你自己的代码或约束。
-// 它跑不通 = 别去改代码，回来查工具链。
+// The only job of this design is to prove the whole chain works
+// (synthesis -> place and route -> packing -> programming) before you write your first line
+// of your own Verilog.
+// If it passes, the toolchain is fine and any later failure is your code or your constraints.
+// If it fails, do not go editing code. Come back and investigate the toolchain.
 //
-// 行为：6 个 LED 全灭（板上 LED 低电平点亮，输出 1 就是灭）。
+// Behaviour: all six LEDs off (the board LEDs are active low, so outputting 1 means off).
 
 module top (
-    input  wire       clk,      // 27 MHz，接上是为了让布局布线有时钟可算
+    input  wire       clk,      // 27 MHz; wired in so place and route has a clock to work with
     output wire [5:0] led
 );
 
-    // 全灭。低电平点亮，所以输出全 1。
+    // All off. Active low, so output all ones.
     assign led = 6'b111111;
 
 endmodule

@@ -1,33 +1,34 @@
-# 把 oss-cad-suite 挂进当前 PowerShell 会话。
+# Put oss-cad-suite on PATH for the current PowerShell session.
 #
-# 用法（必须 dot-source，前面那个点不能省）：
+# Usage (the leading dot is required, do not omit it):
 #     . .\env.ps1
 #
-# 为什么需要这个文件：oss-cad-suite 的 exe 依赖同目录 lib\ 下的 DLL。
-# 只把 bin\ 加进 PATH 时，yosys / nextpnr / openFPGALoader 会直接崩，
-# 退出码 -1073741515（0xC0000135，STATUS_DLL_NOT_FOUND），没有任何错误信息。
-# iverilog 恰好不依赖那些 DLL，所以它会正常跑，把人误导成"工具链没问题"。
+# Why this file exists: the oss-cad-suite executables depend on DLLs in the sibling lib\ directory.
+# If only bin\ is on PATH, yosys / nextpnr / openFPGALoader crash immediately with exit code
+# -1073741515 (0xC0000135, STATUS_DLL_NOT_FOUND) and print nothing at all.
+# iverilog happens not to need those DLLs, so it runs fine and misleads you into thinking
+# the toolchain is healthy.
 
 $ErrorActionPreference = 'Stop'
 
 $root = 'C:\Local_Data\oss-cad-suite'
 if (-not (Test-Path $root)) {
-    throw "找不到工具链目录 $root"
+    throw "Toolchain directory not found: $root"
 }
 
-# 顺序照搬官方 environment.ps1：bin 在前，lib 在后
+# Same order as the official environment.ps1: bin first, lib after
 $env:PATH = "$root\bin;$root\lib;" + $env:PATH
 
 $env:OPENFPGALOADER_SOJ_DIR = "$root\share\openFPGALoader"
 $env:SSL_CERT_FILE = "$root\etc\cacert.pem"
 
-# 自检：这四个必须都能报出版本号
+# Self-check: all four must be able to report a version
 $missing = @()
 foreach ($t in 'iverilog', 'yosys', 'nextpnr-himbaechel', 'openFPGALoader') {
     if (-not (Get-Command $t -ErrorAction SilentlyContinue)) { $missing += $t }
 }
 if ($missing.Count -gt 0) {
-    throw "工具链不完整，缺：$($missing -join ', ')"
+    throw "Toolchain incomplete, missing: $($missing -join ', ')"
 }
 
-Write-Host "oss-cad-suite 就绪（$root）" -ForegroundColor Green
+Write-Host "oss-cad-suite ready ($root)" -ForegroundColor Green

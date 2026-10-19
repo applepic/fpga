@@ -1,23 +1,25 @@
-// Tang Nano 9K 板级约束 —— 只放"板子上有什么"，不放"这次设计用了什么"。
+// Board-level constraints for the Tang Nano 9K.
+// This file describes "what the board has", not "what this design uses".
 //
-// 来源核对（2026-10-18）：
-//   - Sipeed 官方例程 9K_LED_project.cst
+// Sources verified 2026-10-18:
+//   - Sipeed official example, 9K_LED_project.cst
 //     https://github.com/sipeed/TangNano-9K-example/blob/main/led/src/9K_LED_project.cst
-//   - Apicula（开源工具链的器件库）examples/tangnano9k.cst
+//   - Apicula (device database used by the open-source toolchain), examples/tangnano9k.cst
 //     https://github.com/YosysHQ/apicula/blob/master/examples/tangnano9k.cst
-//   - Lushay Labs uart 例程 tangnano9k.cst（UART 引脚）
+//   - Lushay Labs UART example, tangnano9k.cst (UART pins)
 //     https://github.com/lushaylabs/tangnano9k-series-examples/blob/master/uart/tangnano9k.cst
 //
-// nextpnr 会忽略"约束里写了但设计里没有的端口"，所以这个文件可以整份复用，
-// 每个项目不用自己删行。（2026-10-18 实测：多写了 btn / uart 端口，布局布线仍通过。）
+// nextpnr ignores ports that appear in the constraints but not in the design, so this file can be
+// reused wholesale without each project deleting lines.
+// (Verified 2026-10-18: extra btn / uart entries still allow place and route to complete.)
 
-// ---- 时钟：27 MHz 板载晶振 ----
+// ---- Clock: 27 MHz on-board oscillator ----
 IO_LOC  "clk" 52;
 IO_PORT "clk" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 
-// ---- 6 个 LED：低电平点亮 ----
-// 注意 IO_TYPE 写 LVCMOS18 是 Apicula 的写法，Sipeed 官方例程不写 IO_TYPE。
-// 两种都试过，都能过 nextpnr。这里跟 Apicula，因为它对电平写得更明确。
+// ---- 6 LEDs: active low ----
+// IO_TYPE=LVCMOS18 follows Apicula; the Sipeed official example omits IO_TYPE.
+// Both were tried and both pass nextpnr. Apicula is followed here because it states the level explicitly.
 IO_LOC  "led[0]" 10;
 IO_PORT "led[0]" IO_TYPE=LVCMOS18 PULL_MODE=NONE;
 IO_LOC  "led[1]" 11;
@@ -31,13 +33,13 @@ IO_PORT "led[4]" IO_TYPE=LVCMOS18 PULL_MODE=NONE;
 IO_LOC  "led[5]" 16;
 IO_PORT "led[5]" IO_TYPE=LVCMOS18 PULL_MODE=NONE;
 
-// ---- 2 个用户按键：低电平按下，内部上拉 ----
+// ---- 2 user buttons: active low when pressed, internal pull-up ----
 IO_LOC  "btn[0]" 4;
 IO_PORT "btn[0]" IO_TYPE=LVCMOS18 PULL_MODE=UP;
 IO_LOC  "btn[1]" 3;
 IO_PORT "btn[1]" IO_TYPE=LVCMOS18 PULL_MODE=UP;
 
-// ---- 板载 BL702 调试器的 USB-UART ----
+// ---- USB-UART through the on-board BL702 debugger ----
 IO_LOC  "uart_tx" 17;
 IO_PORT "uart_tx" IO_TYPE=LVCMOS33 PULL_MODE=UP;
 IO_LOC  "uart_rx" 18;

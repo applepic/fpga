@@ -1,53 +1,55 @@
-# 课程目录
+# Course index
 
-> 从零到 RV32I 的逐步课程。**每一课都有可跑的任务，做完由 AI 出题检验，通过了才进下一课。**
->
-> 顺序不是按知识点排的，是按"下一个卡点是什么"排的。
+> A step-by-step course from zero to RV32I. **Every lesson has a runnable task.
+> When you finish one, I set questions. You only advance after passing.**
 
-## 进度
+The order is not organised by topic. It is organised by **what blocks you next**.
 
-| 课 | 主题 | 状态 | 练习 |
+## Progress
+
+| Lesson | Topic | Status | Exercise |
 |---|---|---|---|
-| 1 | Verilog 里在写什么：`wire` / `assign` / 位运算 | **进行中** | `examples/00_gates` |
-| 2 | 时钟与 `always`：从组合逻辑到时序逻辑 | 未开始 | 待建 |
-| 3 | 计数器：为什么 `reg` 不等于寄存器 | 未开始 | `examples/01_counter` |
-| 4 | 分频器：27 MHz 变 1 Hz | 未开始 | 待建 |
-| 5 | 状态机：按键走马灯 | 未开始 | 待建 |
-| 6 | 串口发送：跟电脑说话 | 未开始 | 待建 |
-| 7 | 串口接收 + 消抖 | 未开始 | 待建 |
-| 8 | 存储器：`reg` 数组怎么变成 BSRAM | 未开始 | 待建 |
-| 9 | RV32I 之一：指令编码与取指 | 未开始 | 待建 |
-| 10 | RV32I 之二：译码与立即数 | 未开始 | 待建 |
-| 11 | RV32I 之三：ALU 与寄存器堆 | 未开始 | 待建 |
-| 12 | RV32I 之四：访存与跳转 | 未开始 | 待建 |
-| 13 | RV32I 之五：整机联调 | 未开始 | 待建 |
+| 1 | What Verilog describes: `wire` / `assign` / bitwise ops | **in progress** | `examples/00_gates` |
+| 2 | Clocks and `always`: combinational to sequential | not started | to be built |
+| 3 | Counters: why `reg` is not a register | not started | `examples/01_counter` |
+| 4 | Clock dividers: 27 MHz down to 1 Hz | not started | to be built |
+| 5 | State machines: button-driven marquee | not started | to be built |
+| 6 | UART transmit: talking to the PC | not started | to be built |
+| 7 | UART receive and button debouncing | not started | to be built |
+| 8 | Memory: how a `reg` array becomes BSRAM | not started | to be built |
+| 9 | RV32I 1: instruction encoding and fetch | not started | to be built |
+| 10 | RV32I 2: decode and immediates | not started | to be built |
+| 11 | RV32I 3: ALU and register file | not started | to be built |
+| 12 | RV32I 4: memory access and branches | not started | to be built |
+| 13 | RV32I 5: full-system integration | not started | to be built |
 
-## 怎么上课
+## How a lesson works
 
-1. **读这一课的 `.md`**，大约 20 分钟
-2. **写代码**，跑 `.\scripts\sim.ps1 -Project examples/XX_名字`
-3. **卡住 30 分钟以上再来问**，问之前先说清楚你试了什么、看到什么报错
-4. **通过了跟我说**，我出题检验。**不自己宣布通过**
-5. 检验过了，我把状态改成「已完成」，建下一课
+1. **Read the lesson `.md`**. About 20 minutes.
+2. **Write the code**, then run `.\scripts\sim.ps1 -Project examples/NN_name`.
+3. **Stuck for more than 30 minutes? Ask.** Before asking, state what you tried and what error you saw.
+4. **When it passes, tell me.** I set questions. **You do not declare your own pass.**
+5. After you pass, I mark the lesson complete and build the next one.
 
-## 为什么每课都要检验
+## Why every lesson ends with questions
 
-你的已知问题是容易把「学过」当成「掌握了」。
-读完一篇文章觉得懂了，和能不看资料写出来，是两件事。
+Your known failure mode is treating "I have seen this" as "I have mastered this".
+Reading an explanation and feeling that it makes sense is a different thing from writing it from scratch.
 
-检验题会问「为什么」，不只是「写出代码」。比如第 1 课会问你：
-为什么 `~` 和 `!` 在硬件里不能混用。
+The questions ask **why**, not just "write the code". For example, Lesson 1 will ask you why
+`~` and `!` cannot be used interchangeably in hardware.
 
-## 和 `LEARNING.md` 的关系
+## Relationship to `LEARNING.md`
 
-`LEARNING.md` 是**路线**（阶段 A/B/C，每阶段的验收标准）。
-这里是**课程**（一课一课怎么走过去）。
+`LEARNING.md` is the **route**: phases A, B, C, each with acceptance criteria.
+This directory is the **course**: how you actually walk that route.
 
-路线说"阶段 A 要会时序逻辑"，课程说"第 2 课讲 `always`，第 3 课写计数器"。
+The route says "phase A means you can write sequential logic".
+The course says "Lesson 2 covers `always`, Lesson 3 is a counter".
 
-## 和 `examples/` 的关系
+## Relationship to `examples/`
 
-一课对应一个目录：`lessons/NN_xxx.md` ↔ `examples/NN_xxx/`。
+One lesson maps to one directory: `lessons/NN_xxx.md` ↔ `examples/NN_xxx/`.
 
-目录里有 `sim/tb_*.v`（验收标准，**不许改**）和 `README.md`。
-`rtl/` 是空的，**由你来填**。
+Each directory contains `sim/tb_*.v` (the acceptance criteria, **do not modify**) and `README.md`.
+`rtl/` is empty **on purpose**, and you fill it in.

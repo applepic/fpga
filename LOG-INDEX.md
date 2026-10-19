@@ -1,13 +1,14 @@
-# LOG 索引
+# LOG index
 
-> 按时间倒序。行号指向 `LOG.md` 里的表格行。
+> Newest first. Line numbers point at table rows in `LOG.md`.
 
-| 日期 | 动作 | LOG.md |
+| Date | Action | LOG.md |
 |---|---|---|
-| 2026-10-18 | 新建 lessons/ 逐步课程与第 1 课，00_gates 练习 | [第 15 行](LOG.md) |
-| 2026-10-18 | 新建练习 01_counter（只有 testbench 与 README，实现留空） | [第 14 行](LOG.md) |
-| 2026-10-18 | 学习路线压缩为 A/B/C 三阶段，FIFO 降级为选做 | [第 13 行](LOG.md) |
-| 2026-10-18 | 打通工具链并重建学习骨架（env + 脚本 + 约束 + 自检） | [第 12 行](LOG.md) |
-| 2026-10-12 | 确认目标板，新增学习路线 | [第 11 行](LOG.md) |
-| 2026-10-12 | 建立项目文档骨架 | [第 10 行](LOG.md) |
-| 2026-05-18 | `init`（建仓库） | [第 9 行](LOG.md) |
+| 2026-10-18 | Translate all repo docs to English | [line 16](LOG.md) |
+| 2026-10-18 | New `lessons/` course and Lesson 1, `00_gates` exercise | [line 15](LOG.md) |
+| 2026-10-18 | Exercise `01_counter` created (testbench and README only, implementation left empty) | [line 14](LOG.md) |
+| 2026-10-18 | Route condensed to phases A/B/C; FIFO demoted to optional | [line 13](LOG.md) |
+| 2026-10-18 | Toolchain working; learning skeleton rebuilt (env + scripts + constraints + self-test) | [line 12](LOG.md) |
+| 2026-10-12 | Board confirmed; learning route added | [line 11](LOG.md) |
+| 2026-10-12 | Project documentation skeleton created | [line 10](LOG.md) |
+| 2026-05-18 | `init` (repo created) | [line 9](LOG.md) |
