@@ -53,4 +53,6 @@ The course says "Lesson 2 covers `always`, Lesson 3 is a counter".
 One lesson maps to one directory: `lessons/NN_xxx.md` ↔ `examples/NN_xxx/`.
 
 Each directory contains `sim/tb_*.v` (the acceptance criteria, **do not modify**) and `README.md`.
+Formal exercises hold `formal/props_*.v` instead of a testbench; it is the acceptance criteria there,
+under the same rule.
 `rtl/` is empty **on purpose**, and you fill it in.
