@@ -12,16 +12,17 @@ The order is not organised by topic. It is organised by **what blocks you next**
 | 1 | What Verilog describes: `wire` / `assign` / bitwise ops | **in progress** | `examples/00_gates` |
 | 2 | Clocks and `always`: combinational to sequential | not started | to be built |
 | 3 | Counters: why `reg` is not a register | not started | `examples/01_counter` |
-| 4 | Clock dividers: 27 MHz down to 1 Hz | not started | to be built |
-| 5 | State machines: button-driven marquee | not started | to be built |
-| 6 | UART transmit: talking to the PC | not started | to be built |
-| 7 | UART receive and button debouncing | not started | to be built |
-| 8 | Memory: how a `reg` array becomes BSRAM | not started | to be built |
-| 9 | RV32I 1: instruction encoding and fetch | not started | to be built |
-| 10 | RV32I 2: decode and immediates | not started | to be built |
-| 11 | RV32I 3: ALU and register file | not started | to be built |
-| 12 | RV32I 4: memory access and branches | not started | to be built |
-| 13 | RV32I 5: full-system integration | not started | to be built |
+| 4 | Formal verification: `assert` / `assume`, and what a proof gives you | not started | `examples/04_formal` |
+| 5 | Clock dividers: 27 MHz down to 1 Hz | not started | to be built |
+| 6 | State machines: button-driven marquee | not started | to be built |
+| 7 | UART transmit: talking to the PC | not started | to be built |
+| 8 | UART receive and button debouncing | not started | to be built |
+| 9 | Memory: how a `reg` array becomes BSRAM | not started | to be built |
+| 10 | RV32I 1: instruction encoding and fetch | not started | to be built |
+| 11 | RV32I 2: decode and immediates | not started | to be built |
+| 12 | RV32I 3: ALU and register file | not started | to be built |
+| 13 | RV32I 4: memory access and branches | not started | to be built |
+| 14 | RV32I 5: full-system integration | not started | to be built |
 
 ## How a lesson works
 

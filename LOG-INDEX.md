@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-20 | Lesson 4 on refinement; formal proof flow and `04_formal` exercise | [line 17](LOG.md) |
 | 2026-10-18 | Translate all repo docs to English | [line 16](LOG.md) |
 | 2026-10-18 | New `lessons/` course and Lesson 1, `00_gates` exercise | [line 15](LOG.md) |
 | 2026-10-18 | Exercise `01_counter` created (testbench and README only, implementation left empty) | [line 14](LOG.md) |

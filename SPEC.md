@@ -102,6 +102,13 @@ Three layers. Missing any one means not done:
 
 > What fails in simulation will not magically work on the board.
 
+**A fourth layer exists and is optional: formal proofs with `sby`.** It does not replace any of the
+three above. It covers a different question: simulation asks whether the inputs you chose behave,
+a proof asks whether any input sequence can break the property. Lesson 4 introduces it on a toy
+counter. Where it earns its place later is in the RV32I decode logic, where the input space is too
+large to sample by hand. The flow is `scripts/formal.ps1`, which reads `formal/props_*.v` and
+`rtl/*.v` from one exercise directory and writes its work to `build/formal/`.
+
 ## Open questions (settle with the user before starting)
 
 > **Three were settled on 2026-10-18.** Only item 4 genuinely remains.

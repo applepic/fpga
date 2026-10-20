@@ -68,6 +68,7 @@ debug the toolchain, set questions for the user.
 | Toolchain | `C:\Local_Data\oss-cad-suite\bin\` (**`lib\` must be on PATH too**, see `env.ps1`) |
 | Environment script | `env.ps1` (must be dot-sourced: `. .\env.ps1`) |
 | Build / sim / flash | `scripts\build.ps1` / `sim.ps1` / `flash.ps1` |
+| Formal proof | `scripts\formal.ps1` (**reads `formal\props_*.v` + `rtl\*.v`, writes `build\formal\`**) |
 | Board pin constraints | `constraints\tangnano9k.cst` (shared by all projects) |
 | Toolchain self-test | `infra\toolchain_smoke` |
 | Simulator | `iverilog.exe` / `vvp` (only `verilator_bin.exe` works; the perl wrapper is broken) |

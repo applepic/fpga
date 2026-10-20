@@ -68,6 +68,7 @@ All pin assignments live in `constraints/tangnano9k.cst`; sources and verificati
 |---|---|
 | [lessons/README.md](lessons/README.md) | **Course index and progress table.** How to walk the route |
 | [lessons/01_verilog_basics.md](lessons/01_verilog_basics.md) | **Lesson 1**: `wire` / `assign` / bitwise ops / simulation |
+| [lessons/04_formal_refinement.md](lessons/04_formal_refinement.md) | **Lesson 4**: refinement, `assert` / `assume`, proofs with `sby` |
 | [LEARNING.md](LEARNING.md) | **Route.** Three phases, acceptance criteria per phase, toolchain traps |
 | [SPEC.md](SPEC.md) | RV32I scope and open questions |
 | [AGENTS.md](AGENTS.md) | Instructions for AI agents working in this repo |
