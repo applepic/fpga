@@ -31,6 +31,7 @@ It reports `Unknown module type` right now. That is the starting point.
 | `.\scripts\build.ps1 -Project <dir>` | Synthesis + place and route + `build/top.fs` |
 | `.\scripts\flash.ps1 -Project <dir>` | Program SRAM (lost on power cycle) |
 | `.\scripts\flash.ps1 -Project <dir> -Flash` | Program Flash (persists) |
+| `.\scripts\formal.ps1 -Project <dir>` | Formal proof with `sby`, writes `build/formal/` |
 
 **Self-test**: `.\scripts\sim.ps1 -Project infra/toolchain_smoke` and
 `.\scripts\build.ps1 -Project infra/toolchain_smoke` should both pass.
