@@ -32,7 +32,7 @@ Implement an RV32I processor core in Verilog and run it on the Tang Nano 9K.
 
 **In scope**
 - Full base RV32I instruction set (**40 instructions**, see the count note below), able to run a
-  compiled bare-metal program
+  non-trivial program end to end
 - **A five-stage pipelined implementation** that is architecturally identical to the single-cycle
   one (phase D, see "Architecture direction")
 - A reproducible simulation flow, not "it looked right on the board"
@@ -47,15 +47,20 @@ Implement an RV32I processor core in Verilog and run it on the Tang Nano 9K.
 > and report over UART. So the working target is **40 encodings, 38 implementations**.
 > What must not happen is calling a 37-instruction subset "the full base RV32I".
 
-> **"Compiled" means compiled (2026-10-28).** The phrase "a compiled bare-metal program" was
-> previously contradicted by open question 3, which ruled out a cross compiler. Hand-assembled
-> machine code is not a compiled program. **Resolved: install a RISC-V cross compiler before
-> lesson 10.** Chosen toolchain is `riscv-none-elf-gcc` from
-> [xpack-dev-tools](https://github.com/xpack-dev-tools/riscv-none-elf-gcc-xpack/releases)
-> (standalone Windows binary, no MSYS2 or WSL needed, nothing to build from source).
-> Installation is deliberately **deferred until lesson 10 starts**, not done now, so the
-> dependency does not sit unused for months before phase C. Until then, hand-written machine code
-> remains the phase C test method; the compiled-program requirement is what closes phase C.
+> **No C compiler, no C (decided 2026-10-28).** This file previously required "a compiled bare-metal
+> program", which implicitly meant a C cross compiler. That requirement was inherited from generic
+> RV32I projects and **does not serve this project's goal**, which is a pipeline. Adding it would
+> pull in a compiler, a linker script, startup code and a C UART driver, none of which teach
+> anything about pipelining, and it would require learning C first.
+>
+> **Replaced by**: the core runs programs written in a small assembly language, translated to machine
+> code by an assembler **the user writes in Python** (already known, and no new dependency).
+> Writing that assembler is itself the instruction-encoding exercise that open question 3 identified
+> as the real learning goal, so this is a stronger requirement than the C one, not a weaker one.
+>
+> What is given up: the core will not be demonstrated running compiler-generated code. If that is
+> ever wanted, it is a separate later task with its own dependency decision. **Nothing in phase C or
+> phase D depends on it.**
 
 **Explicitly out of scope (version one)**
 - No M / A / F / D extensions, no privileged mode, no interrupts or exceptions
@@ -239,14 +244,15 @@ scope for phase D; the review recommended a stop line and it is adopted here.
 2. ~~Which simulator?~~ → **iverilog.** Verilator's perl wrapper does not run on this Windows machine;
    only `verilator_bin.exe` works directly. There is no speed requirement yet, so standardising on
    iverilog removes one variable
-3. ~~Use an existing instruction test suite?~~ → **No riscv-tests, but yes to a cross compiler.**
-   Hand-writing machine code for the 40 encodings is itself the process of understanding instruction
-   encoding, so phase C keeps doing that. **But the goal line says "a compiled bare-metal program",
-   and hand-assembled code does not satisfy it.** `riscv-none-elf-gcc` gets installed at the start
-   of lesson 10 (see "Compiled means compiled" above). Phase D additionally wants a small assembler
-   for its dependency-heavy test programs; that is settled when phase D starts
+3. ~~Use an existing instruction test suite?~~ → **No riscv-tests, no cross compiler, and a
+   hand-written Python assembler instead.** Hand-writing machine code for the 40 encodings is itself
+   the process of understanding instruction encoding, so phase C does that first. Then, rather than
+   installing `riscv-none-elf-gcc`, the user writes a small assembler in Python, which he already
+   knows. That satisfies the "runs a real program" requirement without a new toolchain dependency and
+   without needing C. See "No C compiler, no C" above
 4. ~~What is the acceptance criterion for step one?~~ → **Phase C**: the 40-encoding test program
-   runs in simulation with correct final state, and a compiled C program prints over UART.
+   runs in simulation with correct final state, and a multi-instruction program produced by the
+   hand-written assembler runs on the board and reports over UART.
    **Phase D**: identical retired-instruction traces against phase C, all hazard classes triggered,
    board output matching simulation, timing met. Settled 2026-10-28
 

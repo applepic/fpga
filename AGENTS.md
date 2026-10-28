@@ -47,8 +47,9 @@ debug the toolchain, set questions for the user.
 - Changing the scope marked "explicitly out of scope" in `SPEC.md` (extra instruction sets, caches,
   privileged mode, branch prediction, CSR file)
 - Introducing a new toolchain dependency (different simulator, different synthesis tool, third-party IP).
-  **The RISC-V cross compiler is already approved** and scheduled for the start of lesson 10; do not
-  install it earlier without asking
+  **There is no cross compiler and no C in this project by design** (decided 2026-10-28): test
+  programs are written in a small assembly language and translated by a Python assembler the user
+  writes. Do not propose installing `riscv-none-elf-gcc` or writing C without asking first
 - Committing large blocks of generated RTL. AI-generated hardware code must be explained section by section before commit
 
 > **Pipelining is no longer an open boundary.** It was confirmed with the user on 2026-10-28 and is

@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-28 | Drop the C compiler requirement; a Python assembler replaces it | [line 20](LOG.md) |
 | 2026-10-28 | Phase D (five-stage pipeline) added to scope; lesson text becomes bilingual | [line 19](LOG.md) |
 | 2026-10-28 | Correct the BSRAM inference claim; RV32I is 40 instructions | [line 18](LOG.md) |
 | 2026-10-20 | Lesson 4 on refinement; formal proof flow and `04_formal` exercise | [line 17](LOG.md) |
