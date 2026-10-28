@@ -96,6 +96,26 @@ Both were admitted as my errors in the answer, and the section order was correct
 
 **Also append a `LOG.md` row for every effective change made in response**, following #4.
 
+### #2.8 FPGA questions go in the lesson, never in `My-Questions.md` (2026-10-28)
+
+**This overrides the general rule in `ai-profile`.** The profile says every question he raises should
+be appended to `C:\Local_Data\Obsidian\03_Resources\My-Questions.md`. **For this project that is
+wrong and he said so explicitly: "不是记在这里是在这一个lesson下面的问题".**
+
+| Question about | Goes to |
+|---|---|
+| FPGA, Verilog, the toolchain, a lesson's content | The lesson's vault copy, in place, as a `> [!question]-` callout (see #2.7) |
+| Anything else | Whatever `ai-profile` says |
+
+**Do not touch `My-Questions.md` for this project.** On 2026-10-28 I added a row there for a question
+about `dut` parentheses, committed it, and had to revert it the same session. The lesson copy already
+holds that question and its answer, so the row was a duplicate in the wrong file, and it also broke
+`My-Questions.md`'s own rule that the table holds only what cannot be looked up elsewhere.
+
+The reason the split matters: `My-Questions.md` is a personal archive of questions whose answers are
+not written down anywhere. A lesson question already has a home, and a permanent one, right next to
+the paragraph that caused it.
+
 ## #3 Confirm before changing
 
 **The project is in a learning phase. The user is learning FPGA from zero; phases A and B in

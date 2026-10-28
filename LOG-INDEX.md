@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-28 | FPGA questions go in the lesson, not in `My-Questions.md` | [line 23](LOG.md) |
 | 2026-10-28 | Record the lesson-format and question-answering rules in AGENTS and LEARNING | [line 22](LOG.md) |
 | 2026-10-28 | Correct the `env.ps1` dot-sourcing comment: the dot is not required for PATH | [line 21](LOG.md) |
 | 2026-10-28 | Drop the C compiler requirement; a Python assembler replaces it | [line 20](LOG.md) |
