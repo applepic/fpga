@@ -38,6 +38,64 @@ Therefore:
 **You may do freely**: read files, run simulations, write docs, write testbenches, write lesson text,
 debug the toolchain, set questions for the user.
 
+### #2.6 He has zero PowerShell background (2026-10-28)
+
+Every command shown to him must be **split into command and arguments, with one line saying what it
+does**. Do not paste a bare command block and assume it is self-explanatory.
+
+- Name the command and say what kind of thing it is: `New-Item` is the command, `-ItemType Directory`
+  is a parameter telling it to make a folder, the path is the target
+- Give the Unix equivalent when one exists (`New-Item -ItemType Directory` = `mkdir`, `. .\x.ps1` =
+  `source`), because that is the vocabulary he will meet in EEC 170/180
+- If a command has a non-obvious piece of syntax, explain that piece. `. .\env.ps1` has two dots and
+  they are **not** a pair: the first is the dot-source operator, the second is part of `.\`
+
+**The project uses PowerShell only. Do not tell him to use Git Bash** for project work. Git for
+Windows ships an MSYS2 bash (`C:\Program Files\Git\bin\bash.exe`) but it has no `make`, and mixing
+two environments produces "command not found" noise unrelated to the circuit he is writing.
+
+### #2.7 Where his questions live and how to answer them (2026-10-28)
+
+**The lesson text he actually reads is the vault copy, not the repo copy.**
+
+| Copy | Path | Role |
+|---|---|---|
+| Repo | `lessons/NN_*.md` | Source of truth for the course structure |
+| Vault | `C:\Local_Data\Obsidian\01_Projects\FPGA\Lesson-NN-*.md` | The copy he reads and writes questions into |
+
+**Read the whole vault file every turn, not just the tail.** On 2026-10-28 he inserted ten questions
+mid-document and only the bottom one was answered, because only the tail was read. He had to point
+this out twice.
+
+Answers are inserted **in place**, in a folded callout, in this shape:
+
+```markdown
+> [!question]- 提问 · one-line summary
+> **原话**
+> his exact words, copied unchanged
+>
+> **整理**
+> a cleaned-up restatement with the symbols fixed
+>
+> **回答**
+> the answer
+```
+
+- **原话 is copied verbatim**, including profanity and full-width punctuation. Editing it destroys
+  the record of where he actually got stuck
+- **整理 fixes symbols and wording, not meaning**: `！v` becomes `!v`, `这个4'` becomes `4'b1100`,
+  `一个v` becomes 一个 `.v` 文件
+- **整理's language follows 原话.** Mixed-in English means an English restatement; pure Chinese means
+  a Chinese restatement. Never translate an English technical term into Chinese
+- **The answer stays where the question is.** Do not collect them into a summary section at the end
+
+**When a question exposes a defect in the lesson, fix the lesson and say so in the answer.** Two
+examples from 2026-10-28: the "numbers carry their width" section sat *after* the operator table that
+used `4'b1100`, and the phrase "the lesson text warns about this" was left with nothing to point at.
+Both were admitted as my errors in the answer, and the section order was corrected.
+
+**Also append a `LOG.md` row for every effective change made in response**, following #4.
+
 ## #3 Confirm before changing
 
 **The project is in a learning phase. The user is learning FPGA from zero; phases A and B in
@@ -85,7 +143,7 @@ debug the toolchain, set questions for the user.
 | Item | Path |
 |---|---|
 | Toolchain | `C:\Local_Data\oss-cad-suite\bin\` (**`lib\` must be on PATH too**, see `env.ps1`) |
-| Environment script | `env.ps1` (must be dot-sourced: `. .\env.ps1`) |
+| Environment script | `env.ps1` (`. .\env.ps1`; the dot is recommended, **not** required for PATH. See the file header for the measured reason) |
 | Build / sim / flash | `scripts\build.ps1` / `sim.ps1` / `flash.ps1` |
 | Formal proof | `scripts\formal.ps1` (**reads `formal\props_*.v` + `rtl\*.v`, writes `build\formal\`**) |
 | Board pin constraints | `constraints\tangnano9k.cst` (shared by all projects) |

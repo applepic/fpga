@@ -86,6 +86,11 @@ The moment you want memory, you need `always` and a clock. That is Lesson 2.
 
 > 1.3 位运算符，以及一个关键区别
 
+> The `4'b1100` notation in this table is explained in **1.4**, right below. If the width-and-base
+> syntax is new to you, read 1.4 first and come back.
+>
+> 这张表里的 `4'b1100` 写法在下面的 **1.4** 讲。如果没见过「位宽 + 进制」这种写法，先读 1.4 再回来。
+
 | Operator | Meaning | Example |
 |---|---|---|
 | `&` | bitwise AND / 按位与 | `4'b1100 & 4'b1010` = `4'b1000` |
@@ -313,8 +318,31 @@ Only after you pass do we move to Lesson 2 (`always` blocks and clocks).
 
 ## Questions / 问题
 
-Write your questions at the bottom of the vault copy of this lesson
-(`01_Projects/FPGA/Lesson-01-Combinational-Logic.md`). Original wording is fine, no formatting needed.
+**Write questions anywhere in the vault copy, right where you got stuck.** Not only at the bottom.
+Under the paragraph, beside the table, after the code block. Original wording is fine, no formatting
+needed, swearing included.
 
-> 问题写在这节课 vault 副本的最下面（`01_Projects/FPGA/Lesson-01-Combinational-Logic.md`）。
-> 原话就行，不用整理格式。
+> **写在 vault 副本的任何位置，就地写。** 不是只能写在最下面。
+> 读不懂的那一段下面、表格旁边、代码块后面，哪里不懂就在哪里写。原话就行，不用整理格式，骂也行。
+
+`01_Projects/FPGA/Lesson-01-Combinational-Logic.md`
+
+**Read the whole file every turn, not just the tail.** On 2026-10-28 ten questions were inserted
+mid-document and only the one at the bottom was answered, because the tail was all that got read.
+
+> **每轮读整篇，不只看末尾。** 2026-10-28 正文中间插了十个问题，只答了末尾那一条，
+> 因为只读了末尾。
+
+Answers go **directly under the question**, inside a folded `> [!question]-` callout, with three
+fixed parts: the original wording verbatim, a cleaned-up restatement, then the answer. The answer
+stays where the question is; it is not moved to a summary section.
+
+> 回答直接插在那句问题下面，收在折叠的 `> [!question]-` 框里，固定三块：
+> 原话照抄、整理成规范写法、回答。答案留在原位，不搬到别处汇总。
+
+**Language inside the callout follows the original wording.** If the question mixes in English
+(`plot出wave`, `tb`, `module`), the restatement is written as a full English sentence. If it is pure
+Chinese, the restatement stays Chinese. Never translate an English technical term into Chinese.
+
+> **框内语种跟着原话走。** 原话里夹了英文（`plot出wave`、`tb`、`module`），整理就整句写成英文；
+> 原话是纯中文，整理保持中文。不把英文术语翻成中文。

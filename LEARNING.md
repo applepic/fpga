@@ -226,6 +226,25 @@ setup). Verilator is installed, but its perl wrapper does not run on this Window
 4. Time budget follows the measured values in `ai-profile/profile/personal.md`:
    **2 to 3 blocks per day, 2.5 to 3 hours per block**
 
+### Lesson length: assume competence, test it (2026-10-28)
+
+The user asked for shorter lessons: "assume I know it, I will ask when I do not". Agreed, with one
+condition.
+
+**Cut the setup, keep the explanation.** What goes is background, history, "why it is designed this
+way", and motivational framing. What stays is anything concrete he could get stuck on: what a
+literal like `4'b1100` means, what a pin is, how `&` differs from `&&`, what happens on truncation.
+On 2026-10-28 every one of his seventeen questions was about a concrete detail, not about the
+big picture, so cutting explanations would have cut exactly the wrong half.
+
+**The questions at the end of each lesson do not get cut.** His stated reason for wanting shorter
+lessons is "I will ask when I do not understand", which assumes he knows what he does not understand.
+His recorded failure mode is the opposite: treating "I have seen this" as "I have mastered this",
+which by definition means the gap is invisible to him. A shorter lesson cannot catch that. A question
+he cannot answer can.
+
+Target length for lesson 2 onward: roughly one third of lesson 1.
+
 ## Reference files
 
 - Book: `docs/Verilog-by-Example_Readler-2011.pdf` (6 MB, not in git)
