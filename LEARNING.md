@@ -20,7 +20,7 @@ last_updated: 2026-10-18
 |---|---|---|
 | **A. Write sequential logic** | `wire`/`assign`, `always @(posedge clk)`, reset, clock division, counters, state machines | Counter + divider + button-driven marquee, all with simulation evidence |
 | **B. Talk to the outside world** | UART transmit, UART receive, button debouncing | Board sends a string to the PC; PC sends a character and the board displays it |
-| **C. RV32I** | Single-cycle core, see [SPEC.md](SPEC.md) | 37-instruction test program runs, UART output matches simulation |
+| **C. RV32I** | Single-cycle core, see [SPEC.md](SPEC.md) | The 40-encoding test program (38 implemented behaviours) runs, UART output matches simulation |
 
 **Every phase is signed off by me setting questions.** Your known failure mode is treating
 "seen it" as "mastered it", so you do not get to declare your own pass.
@@ -130,9 +130,8 @@ Specification in [SPEC.md](SPEC.md). Requires phases A and B to be complete.
 The original phase 3 was "buttons + Block RAM + UART + FIFO", requiring FIFO to work before RV32I.
 The problem: **the first version of RV32I does not need a FIFO.**
 
-- The instruction and data memories of a single-cycle RV32I are **read combinationally**
-  (`assign dout = mem[addr]`). A `reg [31:0] mem[0:255]` array is enough; the synthesis tool
-  places it in BSRAM. You do not hand-write a FIFO
+- A FIFO is not needed for a first RV32I, because instruction and data memory can be a plain
+  `reg [31:0] mem[0:N]` array
 - UART is transmit-only in this phase (dumping results out), so it needs no FIFO either
 - A FIFO becomes genuinely useful when you buffer both directions on the UART, or when you build
   a pipelined design with an instruction queue. That is second-round work
@@ -142,6 +141,42 @@ It removes a step that blocked the goal without the goal needing it.
 
 Block RAM is the same story: you will use it naturally in phase C (as instruction memory),
 and learning it there gives you a reason. Learning "a memory block" in the abstract now does not.
+
+### Correction 2026-10-28: a combinational read does NOT become BSRAM
+
+This section used to claim that `assign dout = mem[addr]` (a combinational read) is placed in
+BSRAM by the synthesis tool, and that this is why a single-cycle core needs no hand-written
+memory. **The second half is false.** Measured on this board, `synth_gowin` + `nextpnr-himbaechel`,
+2026-10-28:
+
+| Memory | Read | Result |
+|---|---|---|
+| 256 x 32, address from a **register** | combinational | BSRAM, 16 LUT4, Fmax 224 MHz |
+| 256 x 32, address from an **ALU expression** | combinational | **no BSRAM**: 354 LUT4, Fmax 98 MHz |
+| 512 x 32, ALU address | combinational | **no BSRAM**: 1211 LUT4 (14% of the chip), Fmax 138 MHz |
+| 1024 x 32, ALU address | combinational | **place and route fails**: `Unable to find legal placement for cell mem.0.1 of type RAM16SDP4` |
+| 1024 x 32, ALU address | **registered** | BSRAM, 10 LUT4, Fmax 272 MHz |
+
+The pattern: **BSRAM inference requires the read address to come from a register.**
+A single-cycle core computes the load address with the ALU in the same cycle it needs the data,
+so its data memory is exactly the failing case. The instruction memory is fine, because the PC
+is a register, which is why the instruction memory row above infers BSRAM at 1024 words.
+
+Consequences for phase C, none of them fatal but all of them real:
+
+1. **The data memory has to be small.** 256 words (1 KB) costs 524 LUT4, 6% of the chip.
+   That is affordable. 1024 words is not, and does not even place.
+2. **The load path is the critical path.** 98 MHz for a 256-word memory against a 27 MHz clock
+   leaves about 3.6x headroom, which is enough, but it is the number to watch in phase D.
+3. **The cheap fix is a registered read**, which turns the load into a two-cycle operation and
+   costs a stall. That is a real design change, not a detail, so it is a phase C decision to make
+   deliberately, not something to discover at integration time.
+
+The FIFO demotion itself still stands: a `reg` array is still enough, it is just a **LUT** array
+at the sizes a single-cycle core can afford. What was wrong was the reason, not the conclusion.
+
+The lesson: "the synthesis tool will infer BSRAM" is a claim about a specific code shape, and the
+shape that infers BSRAM is narrower than it looks. Verify it with `stat`, do not assume it.
 
 ## On simulation: use it from day one
 

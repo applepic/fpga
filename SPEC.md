@@ -31,7 +31,17 @@ marathon before you can walk.
 Implement an RV32I processor core in Verilog and run it on the Tang Nano 9K.
 
 **In scope**
-- Full base RV32I instruction set (37 instructions), able to run a compiled bare-metal program
+- Full base RV32I instruction set (**40 instructions**, see the count note below), able to run a
+  compiled bare-metal program
+
+> **Instruction count (corrected 2026-10-28).** The RISC-V spec says "RV32I contains 40 unique
+> instructions" ([ISA manual](https://docs.riscv.org/reference/isa/v20260120/unpriv/rv32.html)).
+> Earlier versions of this file said 37, which silently drops `FENCE`, `ECALL` and `EBREAK`.
+> The spec also notes that a minimal implementation may implement `FENCE` as a NOP and cover
+> `ECALL`/`EBREAK` with one always-trapping SYSTEM instruction, which is 38. **Version one of this
+> core will do exactly that**: implement `FENCE` as a NOP and make `ECALL`/`EBREAK` halt the core
+> and report over UART. So the working target is **40 encodings, 38 implementations**.
+> What must not happen is calling a 37-instruction subset "the full base RV32I".
 - A reproducible simulation flow, not "it looked right on the board"
 - Synthesis, place and route, and programming all working end to end
 
@@ -97,7 +107,8 @@ That keeps the "swap the board by editing one directory" principle from "Boundar
 Three layers. Missing any one means not done:
 
 1. **Unit simulation**: each module has its own testbench covering boundary cases
-2. **Instruction-level simulation**: a test program covering all 37 instructions, comparing final register values
+2. **Instruction-level simulation**: a test program covering all 40 encodings (38 implemented
+   behaviours), comparing final register values
 3. **On the board**: after synthesis and programming, output results over UART and confirm they match simulation
 
 > What fails in simulation will not magically work on the board.
@@ -118,8 +129,13 @@ large to sample by hand. The flow is `scripts/formal.ps1`, which reads `formal/p
    only `verilator_bin.exe` works directly. There is no speed requirement yet, so standardising on
    iverilog removes one variable
 3. ~~Use an existing instruction test suite?~~ → **No riscv-tests.** There is no RISC-V cross compiler
-   on this machine, and hand-writing machine code for 37 instructions is itself the process of
+   on this machine, and hand-writing machine code for the 40 encodings is itself the process of
    understanding instruction encoding, which serves the learning goal better than a benchmark score
+
+   > **Reopened 2026-10-28, scope narrowed.** This decision holds for phase C, where one test
+   > program is enough. Phase D needs a dozen small programs with deliberately dependent
+   > instruction pairs, and hand-assembling those is where the time goes. A ~200-line Python
+   > assembler will pay for itself there. **Do not settle it now**; settle it when phase D starts.
 4. **What is the acceptance criterion for step one?** Candidate: a bare-metal program that prints
    "hello" over UART. **Decide this after phase B**, since there is not enough information now
 
