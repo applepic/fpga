@@ -9,6 +9,13 @@
 - The user is transitioning to English (`ai-profile/profile/language.md`). This project is the practice ground.
 - Keep code, commands, paths, signal names and error codes verbatim. Do not translate them.
 
+**Course text is bilingual (2026-10-28).** Lesson files under `lessons/` carry English as the primary
+text with Chinese following each paragraph as a blockquote. When writing or editing a lesson:
+- English first and complete on its own; Chinese is a per-paragraph translation, not a summary
+- Do not translate code, signal names, commands, error messages or file paths
+- Tables may carry both languages in one cell, separated by `/`
+- Docs outside `lessons/` (SPEC, LEARNING, AGENTS, README, LOG) stay **English only**
+
 ## #2 Read the docs before touching anything
 - Not sure what this project is? Read [README.md](README.md) first.
 - **Not sure where to start? Read the progress table in [lessons/README.md](lessons/README.md) and find the current lesson.**
@@ -37,9 +44,16 @@ debug the toolchain, set questions for the user.
 `LEARNING.md` are not complete.** Stop, explain, and wait for confirmation before:
 
 - Skipping lessons in `LEARNING.md` and starting RV32I directly
-- Changing the scope marked "explicitly out of scope" in `SPEC.md` (extra instruction sets, caches, pipelining)
-- Introducing a new toolchain dependency (different simulator, different synthesis tool, third-party IP)
+- Changing the scope marked "explicitly out of scope" in `SPEC.md` (extra instruction sets, caches,
+  privileged mode, branch prediction, CSR file)
+- Introducing a new toolchain dependency (different simulator, different synthesis tool, third-party IP).
+  **The RISC-V cross compiler is already approved** and scheduled for the start of lesson 10; do not
+  install it earlier without asking
 - Committing large blocks of generated RTL. AI-generated hardware code must be explained section by section before commit
+
+> **Pipelining is no longer an open boundary.** It was confirmed with the user on 2026-10-28 and is
+> now phase D in `SPEC.md` and `LEARNING.md`. What is still out of scope inside phase D: dynamic
+> branch prediction, CSR, interrupts, and chasing Fmax past the target.
 
 ## #4 Record every change
 - After every **effective change**, update [LOG.md](LOG.md) and [LOG-INDEX.md](LOG-INDEX.md).
@@ -56,8 +70,12 @@ debug the toolchain, set questions for the user.
   When stuck, give reasoning and debugging method, never complete code.
 - **Do not write the exercise implementations under `examples/`.** Only testbenches (acceptance criteria) and READMEs belong there.
   `rtl/` being empty is **intentional**. Give hints, not code.
-- **Do not expand scope.** Version one is base RV32I only: no M / A / F / D extensions, no cache, no privileged mode.
+- **Do not expand scope.** The scope is base RV32I (40 encodings, 38 implemented behaviours) as a
+  single-cycle core and then a five-stage pipeline. No M / A / F / D extensions, no cache, no
+  privileged mode, no CSR, no branch prediction, no interrupts.
   Once scope opens up, this project never finishes.
+- **Do not write phase D before phase C passes in simulation.** The single-cycle core is the oracle;
+  without it there is nothing to compare the pipeline against.
 - **Do not claim something is "done" without simulation evidence.**
 - **Do not suggest the user rest, come back another day, or reconsider whether to do this.** Just finish the work.
 

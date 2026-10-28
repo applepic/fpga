@@ -23,6 +23,19 @@ The order is not organised by topic. It is organised by **what blocks you next**
 | 12 | RV32I 3: ALU and register file | not started | to be built |
 | 13 | RV32I 4: memory access and branches | not started | to be built |
 | 14 | RV32I 5: full-system integration | not started | to be built |
+| 15 | Phase D: timing and structural decisions for a pipeline | not started | to be built |
+| 16 | Phase D: the lockstep harness, built before the hazard lessons | not started | to be built |
+| 17 | Phase D: pipeline registers only | not started | to be built |
+| 18 | Phase D: data hazards and forwarding | not started | to be built |
+| 19 | Phase D: the load-use hazard | not started | to be built |
+| 20 | Phase D: `valid`, `bubble`, `stall` vs `flush` | not started | to be built |
+| 21 | Phase D: control hazards and flush side effects | not started | to be built |
+| 22 | Phase D: reset release, input synchronisation, clock constraints | not started | to be built |
+| 23 | Phase D: stage balance and the stop line | not started | to be built |
+
+> **Phase D (lessons 15-23) was added 2026-10-28.** The endpoint is a five-stage pipeline, and the
+> single-cycle core from phase C is what it is verified against. See "Phase D" in `LEARNING.md`
+> and the review record in the vault at `01_Projects/FPGA/FPGA-Route-Review-2026-10-28.md`.
 
 ## How a lesson works
 

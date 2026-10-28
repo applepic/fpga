@@ -14,13 +14,14 @@ last_updated: 2026-10-18
 >
 > **This file is the route. For the actual sequence of lessons, see [lessons/README.md](lessons/README.md).**
 
-## Three phases
+## Four phases
 
 | Phase | Content | Acceptance |
 |---|---|---|
 | **A. Write sequential logic** | `wire`/`assign`, `always @(posedge clk)`, reset, clock division, counters, state machines | Counter + divider + button-driven marquee, all with simulation evidence |
 | **B. Talk to the outside world** | UART transmit, UART receive, button debouncing | Board sends a string to the PC; PC sends a character and the board displays it |
-| **C. RV32I** | Single-cycle core, see [SPEC.md](SPEC.md) | The 40-encoding test program (38 implemented behaviours) runs, UART output matches simulation |
+| **C. RV32I single cycle** | Single-cycle core, see [SPEC.md](SPEC.md) | The 40-encoding test program (38 implemented behaviours) runs, UART output matches simulation |
+| **D. RV32I five-stage pipeline** | Pipelined core, architecturally identical to C | Identical retired-instruction traces against C, every hazard class triggered, board output matches simulation, timing met |
 
 **Every phase is signed off by me setting questions.** Your known failure mode is treating
 "seen it" as "mastered it", so you do not get to declare your own pass.
@@ -121,9 +122,34 @@ so get it stable now.
 **Wiring**: the on-board BL702 already exposes USB-UART. `uart_tx` = pin 17, `uart_rx` = pin 18.
 Plug in USB and a COM port appears in Device Manager.
 
-## Phase C: RV32I
+## Phase C: RV32I, single cycle
 
 Specification in [SPEC.md](SPEC.md). Requires phases A and B to be complete.
+
+**The single-cycle core is not a detour.** It is the oracle phase D is measured against. Two
+independent things can be wrong in a pipeline: the instruction semantics, and the hazard logic.
+With a working single-cycle core you run the same program on both and diff the retired-instruction
+traces, and the answer is two-valued. Without it, every wrong value is ambiguous.
+
+## Phase D: RV32I, five stages
+
+Specification in [SPEC.md](SPEC.md). Requires phase C to **pass in simulation**; the board bring-up
+of C may run in parallel or later, it is not a gate on D.
+
+| Lesson | Topic |
+|---|---|
+| 15 | Timing and structural decisions: read the report, memory ports, read latency, regfile same-cycle access |
+| 16 | **Build the lockstep harness first** (retired-instruction trace, not final registers) |
+| 17 | Pipeline registers only, no hazard logic, dependency-free programs |
+| 18 | Data hazards: forwarding, which paths are needed |
+| 19 | Load-use hazard: why forwarding cannot fix it |
+| 20 | Control: `valid`/`bubble`, `stall` vs `flush` priority, flushed instructions must not write |
+| 21 | Control hazards: branch resolution, `JALR` operand dependency, store-data dependency |
+| 22 | Reset release, asynchronous input synchronisation, clock constraints |
+| 23 | Close the loop: re-read Fmax, judge stage balance |
+
+**Stop line**: phase D ends when its four acceptance items pass. Chasing Fmax beyond the target and
+formal refinement proofs are out of scope.
 
 ## Why the order changed (2026-10-18)
 
