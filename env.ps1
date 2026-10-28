@@ -1,7 +1,20 @@
 # Put oss-cad-suite on PATH for the current PowerShell session.
 #
-# Usage (the leading dot is required, do not omit it):
+# Usage (both forms work; the leading dot is recommended):
 #     . .\env.ps1
+#     .\env.ps1
+#
+# Why the dot is still recommended (measured 2026-10-28):
+#   $env:PATH is an *environment* variable, so it survives a script's own scope and the
+#   no-dot form does put the toolchain on PATH. What the dot additionally changes is
+#   $ErrorActionPreference below: without the dot it stays inside the script's scope, so
+#   `yosys -V` failing would print an error and carry on; with the dot it becomes 'Stop'
+#   in your session, so a broken tool fails loudly. That is the whole difference.
+#
+#   The earlier version of this comment said the dot was required, or the toolchain would
+#   not be on PATH. That was wrong and was corrected on 2026-10-28 after measuring it:
+#   with a PATH containing no oss-cad-suite, `.\env.ps1` (no dot) still leaves `yosys -V`
+#   working and exiting 0.
 #
 # Why this file exists: the oss-cad-suite executables depend on DLLs in the sibling lib\ directory.
 # If only bin\ is on PATH, yosys / nextpnr / openFPGALoader crash immediately with exit code
