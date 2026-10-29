@@ -9,7 +9,7 @@ The order is not organised by topic. It is organised by **what blocks you next**
 
 | Lesson | Topic | Status | Exercise |
 |---|---|---|---|
-| 1 | What Verilog describes: `wire` / `assign` / bitwise ops | **in progress** | `examples/00_gates` |
+| 1 | What Verilog describes: `wire` / `assign` / bitwise ops | **passed 2026-10-29** | `examples/00_gates` |
 | 2 | Clocks and `always`: combinational to sequential | not started | to be built |
 | 3 | Counters: why `reg` is not a register | not started | `examples/01_counter` |
 | 4 | Formal verification: `assert` / `assume`, and what a proof gives you | not started | `examples/04_formal` |
@@ -36,6 +36,27 @@ The order is not organised by topic. It is organised by **what blocks you next**
 > **Phase D (lessons 15-23) was added 2026-10-28.** The endpoint is a five-stage pipeline, and the
 > single-cycle core from phase C is what it is verified against. See "Phase D" in `LEARNING.md`
 > and the review record in the vault at `01_Projects/FPGA/FPGA-Route-Review-2026-10-28.md`.
+
+## Known prerequisite gaps (found 2026-10-29, not yet scheduled)
+
+I audited the docs against what phases A and C actually require. Three things are needed later and
+taught nowhere. Listed here so a future session does not rediscover them.
+
+| Gap | Needed by | Status |
+|---|---|---|
+| **Two's complement, binary addition, carry** | RV32I `SUB`, `SLT`, every sign-extended immediate (lesson 11-13) | Taught nowhere. `LEARNING.md`, `SPEC.md` and both lesson files contain no coverage |
+| **Testbench syntax**: `initial`, `reg`, `begin`/`end`, `if`, `case`, `$dumpfile`, `$dumpvars`, `$finish`, `posedge` | Lesson 2 onward, and every testbench he writes from checkpoint 2 | Lesson 1 mentions only `$display`, `#10`, `integer`. He has read all the rest inside `tb_gates.v` without ever being taught it |
+| **Binary arithmetic: half adder, full adder, carry chain** | The ALU (lesson 12) | Taught nowhere |
+
+**Why the first gap matters most.** Two's complement is a mental model, not syntax. Reaching the
+decode lesson without it means learning immediate sign-extension and Verilog syntax at the same time.
+The proposal on 2026-10-29 was to put two's complement and binary addition *before* `always`, then
+teach testbench syntax as its own lesson. That renumbers the course from 23 to 24 lessons and was
+**not yet approved**, so the table above is unchanged.
+
+> 2026-10-29 查出来的三个前置缺口：补码与二进制加法、测试台语法、加法器。都还没排进课表。
+> 补码最要紧，它是思维模型不是语法，等写到立即数扩展时再补会同时面对两个难点。
+> 提议把补码放到 `always` 之前、测试台语法单独一课，课数从 23 变 24，**尚未确认**。
 
 ## How a lesson works
 
