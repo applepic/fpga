@@ -13,12 +13,19 @@ It is to see with your own eyes that **Verilog describes circuit structure, not 
 module gates (
     input  wire a,
     input  wire b,
-    output wire y_and,   // a & b
-    output wire y_or,    // a | b
-    output wire y_xor,   // a ^ b
-    output wire y_not    // ~a
+    output wire y_and,
+    output wire y_or,
+    output wire y_xor,
+    output wire y_not
 );
 ```
+
+**The operators are not written here on purpose.** The specification is the truth table under
+"Pass condition" below: each output column tells you what that output must do. Deriving the four
+expressions from those four columns is the exercise.
+
+> **这里故意不写运算符。** 规格是下面「Pass condition」那张真值表：每一列告诉你那个输出该做什么。
+> 从四列反推出四个表达式，就是这次练习。
 
 ## How to run
 
