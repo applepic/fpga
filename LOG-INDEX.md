@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-29 | Gate the testbench handover on capability checkpoints and remove same-origin expected values | [line 26](LOG.md) |
 | 2026-10-28 | Hand over testbench writing to the user on a per-lesson schedule | [line 25](LOG.md) |
 | 2026-10-28 | State the lesson task explicitly and stop leaking the operators in the README | [line 24](LOG.md) |
 | 2026-10-28 | FPGA questions go in the lesson, not in `My-Questions.md` | [line 23](LOG.md) |

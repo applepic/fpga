@@ -9,6 +9,13 @@
 // It does two things:
 //   1. Tries all four combinations of a and b, checking each of the four outputs
 //   2. Prints a truth table you can compare against your textbook
+//
+// The expected values are a hardcoded table copied from the truth table in the
+// lesson, NOT recomputed from the operators. That matters: if the checker
+// recomputed `exp_and = a & b` it would just be the answer written twice, and a
+// wrong checker would silently enforce a wrong answer. A literal table comes
+// from the specification instead. (Fixed 2026-10-28 after the user asked where
+// the expected values come from.)
 
 module tb;
 
@@ -43,10 +50,13 @@ module tb;
 
             $display("  %b  %b |  %b    %b    %b    %b", a, b, y_and, y_or, y_xor, y_not);
 
-            exp_and = a & b;
-            exp_or  = a | b;
-            exp_xor = a ^ b;
-            exp_not = ~a;
+            // The specification, one row per input combination.
+            case (i)
+                0: begin exp_and = 1'b0; exp_or = 1'b0; exp_xor = 1'b0; exp_not = 1'b1; end
+                1: begin exp_and = 1'b0; exp_or = 1'b1; exp_xor = 1'b1; exp_not = 1'b1; end
+                2: begin exp_and = 1'b0; exp_or = 1'b1; exp_xor = 1'b1; exp_not = 1'b0; end
+                3: begin exp_and = 1'b1; exp_or = 1'b1; exp_xor = 1'b0; exp_not = 1'b0; end
+            endcase
 
             if (y_and !== exp_and) begin
                 $display("    FAIL y_and expected %b, got %b", exp_and, y_and);

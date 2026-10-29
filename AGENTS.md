@@ -149,11 +149,17 @@ the paragraph that caused it.
   When stuck, give reasoning and debugging method, never complete code.
 - **Do not write the exercise implementations under `examples/`.** Only testbenches (acceptance criteria) and READMEs belong there.
   `rtl/` being empty is **intentional**. Give hints, not code.
-- **Who writes the testbench follows the handover schedule in `lessons/README.md`.** Lessons 1 to 3
-  have testbenches I already wrote. Lessons 4 to 6: ship one with a marked gap for him to fill.
-  Lessons 7 to 9: he writes it from a written spec, I review. Lesson 10 onward: he writes his own,
-  and I keep an independent one he does not see. **When it is his turn to write the testbench, do not
-  also ship a working one under `sim/`**; that makes the exercise fictional.
+- **Who writes the testbench follows the capability checkpoints in `lessons/README.md`, not lesson
+  numbers.** The four checkpoints are: read a truth table, write expected values, design stimulus,
+  adjudicate a conflict. He can be on lesson 8 and still be stuck at checkpoint 1; do not advance the
+  handover just because time passed. **Checkpoint 1 was not cleared as of 2026-10-29.**
+- **Expected values in a testbench must never be recomputed from the same operators the RTL uses.**
+  `exp_and = a & b` beside `assign y_and = a & b` is same-origin verification: one misunderstanding
+  passes the test twice. Copy the expected values from the written specification instead. Measured
+  consequence of getting this wrong: corrupting one spec row makes the console blame correct RTL.
+- **When a checkpoint says the testbench is his, do not also ship a working one under `sim/`.**
+  Put the specification in the lesson text and the exercise `README.md`; a reference testbench beside
+  "now write your own" makes the exercise fictional.
 - **Do not expand scope.** The scope is base RV32I (40 encodings, 38 implemented behaviours) as a
   single-cycle core and then a five-stage pipeline. No M / A / F / D extensions, no cache, no
   privileged mode, no CSR, no branch prediction, no interrupts.
