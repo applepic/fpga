@@ -65,7 +65,36 @@ The course says "Lesson 2 covers `always`, Lesson 3 is a counter".
 
 One lesson maps to one directory: `lessons/NN_xxx.md` ↔ `examples/NN_xxx/`.
 
-Each directory contains `sim/tb_*.v` (the acceptance criteria, **do not modify**) and `README.md`.
+Each directory contains a testbench under `sim/tb_*.v` and a `README.md`.
 Formal exercises hold `formal/props_*.v` instead of a testbench; it is the acceptance criteria there,
 under the same rule.
 `rtl/` is empty **on purpose**, and you fill it in.
+
+## Who writes the testbench: a handover schedule (2026-10-28)
+
+**The problem this fixes.** For lessons 1 to 3 I wrote every testbench and told him not to touch it.
+He then asked "tb 也不是我自己写的啊", and he was right: writing the checker is part of the skill, and
+without it his only feedback is someone else's verdict. The question "how do I know whether `y_not`
+depends on `a` or on `b`" comes from never having had to write down what each output must be.
+
+**He chose a gradual handover ("我可以接受一步步来"), so the split is by lesson, not all at once.**
+
+| Lessons | Who writes `sim/tb_*.v` | What he practices |
+|---|---|---|
+| 1 to 3 | **I do** (already written) | Reading a testbench and its output; learning what a checker looks like |
+| 4 to 6 | **I do, then he edits it** | I ship a working testbench and leave one marked gap, e.g. a missing expected value or a missing input combination. He fills the gap and reruns |
+| 7 to 9 | **He writes, I review** | Given a written spec ("these inputs, these expected outputs, print this on failure"), he writes the whole testbench. I review and run it |
+| 10 onward | **He writes first, then I add a hidden one** | He writes his own testbench for the RTL. I separately keep an independent testbench he does not see, so passing his own checker is not enough |
+
+**Why the last row matters for phase C.** If the only testbench is the one he wrote, a wrong
+assumption about RV32I semantics gets baked into both the RTL and its checker, and both agree while
+both are wrong. From lesson 10 on, an independent hidden testbench is what catches that. Until then
+the two agree by construction, which is fine because the designs are small enough to check by eye.
+
+**Rule for me, effective now:** when a lesson's testbench is one he is supposed to write, **do not
+ship a working one under `sim/`**. Put the specification in the lesson text and in the exercise
+`README.md` instead. Shipping a reference testbench and asking him to write his own is a fiction.
+
+> 2026-10-28 记：第 1 到 3 课的测试台是我写的，他提出这不对。改成按课交接：
+> 4 到 6 课我写但留一个空让他补，7 到 9 课他写我审，10 课起他自己写之外我再留一份他看不到的独立测试台，
+> 防止他和他的测试台一起错。
