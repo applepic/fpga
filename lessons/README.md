@@ -26,20 +26,23 @@ ten lessons".
 |---|---|---|---|---|
 | 01 | `lsn-01-wires.pdf`, slides 1-51 | Wires, `assign`, module skeleton, constraints, board build | `examples/tutorial/01_wires` | **ready 2026-10-30**, not started |
 | 02 | `lsn-01-wires.pdf`, slides 18-44 | Bus signals, bit select, `maskbus`, first real testbench | `examples/tutorial/02_maskbus` | **ready 2026-10-30**, not started |
-| 03 | `lsn-02-regs.pdf` | Registers, `always @(posedge clk)`, blinky, PPS, dimmer | `examples/tutorial/03_registers` | to be written |
-| 04 | `lsn-03-fsm.pdf` | Finite state machines, LED walker | `examples/tutorial/04_fsm` | to be written |
-| 05 | `lsn-04-pipeline.pdf` | Building a Wishbone slave, pipelining | `examples/tutorial/05_wishbone` | to be written |
-| 06 | `lsn-05-serialtx.pdf` | Serial port transmitter, hello world | `examples/tutorial/06_serialtx` | to be written |
-| 07 | `lsn-06-txdata.pdf` | Transmitting 32-bit data | `examples/tutorial/07_txdata` | to be written |
-| 08 | `lsn-07-bouncing.pdf` | 2FF synchronisers and debouncing | `examples/tutorial/08_bouncing` | to be written |
-| 09 | `lsn-08-memory.pdf` | FPGA block RAM | `examples/tutorial/09_memory` | to be written |
-| 10 | `lsn-09-serialrx.pdf` | Serial port receiver | `examples/tutorial/10_serialrx` | to be written |
-| 11 | `lsn-10-fifo.pdf` | FIFO | `examples/tutorial/11_fifo` | to be written |
+| 03 | `lsn-02-regs.pdf`, slides 1-27 | Registers, `always @(posedge clk)`, latches, blocking vs non-blocking, blinky, parameters | `examples/tutorial/03_registers` | **ready 2026-10-30**, not started |
+| 04 | `lsn-02-regs.pdf`, slides 28-37 | Strobe, PPS-I, PPS-II, stretch, timing checks, dimmer | `examples/tutorial/04_dividers` | **ready 2026-10-30**, not started |
+| 05 | `lsn-03-fsm.pdf` | Finite state machines, LED walker | `examples/tutorial/05_fsm` | to be written |
+| 06 | `lsn-04-pipeline.pdf` | Building a Wishbone slave, pipelining | `examples/tutorial/06_wishbone` | to be written |
+| 07 | `lsn-05-serialtx.pdf` | Serial port transmitter, hello world | `examples/tutorial/07_serialtx` | to be written |
+| 08 | `lsn-06-txdata.pdf` | Transmitting 32-bit data | `examples/tutorial/08_txdata` | to be written |
+| 09 | `lsn-07-bouncing.pdf` | 2FF synchronisers and debouncing | `examples/tutorial/09_bouncing` | to be written |
+| 10 | `lsn-08-memory.pdf` | FPGA block RAM | `examples/tutorial/10_memory` | to be written |
+| 11 | `lsn-09-serialrx.pdf` | Serial port receiver | `examples/tutorial/11_serialrx` | to be written |
+| 12 | `lsn-10-fifo.pdf` | FIFO | `examples/tutorial/12_fifo` | to be written |
 
-> Lesson numbering follows the source: its index lists ten named lessons with a Preface, so the
-> source's lesson 1 is split here into 01 and 02 (board half and bus/simulation half) because they
-> use different tool chains, and the source's lessons 2-10 become 03-11. The mapping is in the table
-> above and in every lesson file's header.
+> Lesson numbering follows the source, with two splits. The source's index lists ten named lessons
+> after a Preface. Lesson 1 splits into 01 (board) and 02 (bus and simulation) because the halves use
+> different tool chains. Lesson 2 splits into 03 (registers and blinky, slides 1-27) and 04 (clock
+> dividers, timing, dimmer, slides 28-37) because the divider material needs its own lesson. The
+> source's lessons 3-10 therefore become 05-12. The mapping is in the table above and in every lesson
+> file's header.
 
 ## What is different from the original
 

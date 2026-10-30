@@ -4,6 +4,8 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-30 | Tutorial lesson 04: clock dividers, PPS, timing checks, dimmer; source lesson 2 split | [line 39](LOG.md) |
+| 2026-10-30 | Tutorial lesson 03: registers, blinky, and the parameter trick | [line 38](LOG.md) |
 | 2026-10-30 | Tutorial lesson 02: `maskbus`, buses and bit selects, his first real testbench | [line 37](LOG.md) |
 | 2026-10-30 | Course replaced by the ZipCPU beginner tutorial; tutorial lesson 01 shipped | [line 36](LOG.md) |
 | 2026-10-30 | Tables stay English; lesson 02 section 0 restored | [line 35](LOG.md) |
