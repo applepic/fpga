@@ -13,6 +13,16 @@
 > Exercise: `examples/03_clocked_rules`. Run it today and read the output before you start
 > reading this; the printed table is easier to argue with than the text.
 
+**Two things moved here from lesson 02 on 2026-10-30**, when lesson 02 was cut in half: overflow
+(the rule, and what "the carry out" does and does not tell you) and the reference to the 8-bit
+table. They are in section 3 below, next to the combinational `always @*` example, because the
+rules only become worth their space once there is a circuit that can wrap. Section 5 of
+`examples/02_adder/sim/README.md` is where `signed` lives now.
+
+> **2026-10-30 从第 02 课挪来两样**：溢出（规则本身，以及进位输出说明了什么、没说明什么）和 8 位表。
+> 它们在第 3 节，挨着组合逻辑 `always @*` 的例子，因为只有在有电路会回绕之后，这些规则才值得占地。
+> `signed` 现在只在 `examples/02_adder/sim/README.md` 第 5 节。
+
 ---
 
 ## 0. One sentence / 一句话
@@ -74,8 +84,53 @@ without ever being taught. They are in `examples/03_clocked_rules/README.md`, ex
 > **规则 1 到 4** 是测试台那边的东西，你已经在 `tb_gates.v` 里看过但没人讲过。
 > 在 `examples/03_clocked_rules/README.md` 里，由 `rtl/mux4.v` 对应。
 
-## 2. The clock is a testbench invention, sort of / 时钟：仿真里是测出来的，板子上有
+## 3. What moved here from lesson 02 / 从第 02 课挪来的两件事
 
+**The 8-bit table.** Same rule as the 4-bit one in lesson 02, with n = 8, so nothing new to learn,
+and it is the width every example below uses.
+
+> **8 位表。** 规则和第 02 课的 4 位表一样，只是 n = 8，没有新东西可学；下面所有例子都用这个宽度。
+
+| Bits | Unsigned | Signed | Subtraction |
+|---|---|---|---|
+| `0000_0000` | 0 | 0 | none |
+| `0111_1111` | 127 | 127 | none |
+| `1000_0000` | 128 | -128 | 128 - 256 |
+| `1011_0100` | 180 | -76 | 180 - 256 |
+| `1111_1111` | 255 | -1 | 255 - 256 |
+
+> 中文说明：最高位是 0 的行两种读法相同；最高位是 1 的行，无符号读数减 256 就是有符号读数。
+
+**Overflow.** The carry out from lesson 02 is about the unsigned ceiling. Overflow is about the
+signed range, and it is the dangerous one because the bits look normal:
+
+> **溢出。** 第 02 课讲的进位输出管的是无符号上限，溢出管的是有符号范围，危险就在这里，因为结果的位看上去完全正常：
+
+```text
+  0111_1111   (+127)
++ 0000_0001   (   +1)
+  ---------
+  1000_0000   unsigned 128, signed -128. Adding two positives gave a negative
+```
+
+The rule in one line: **signed overflow happened if the carry into the sign bit differs from the
+carry out of the sign bit.** RISC-V has no flag for it: `ADD` wraps and says nothing. Every place
+that cares (branches, `SLT`, your own testbench) has to have values that fit. That is also the
+difference between the two things you asked about: the carry out is information the hardware gives you, overflow is an interpretation of it, and the two agree only in some cases.
+
+> 一句话规则：**进入符号位的进位和从符号位出去的进位不同，就是有符号溢出。**
+> RISC-V 不设这个标志，`ADD` 直接回绕、什么都不说。所有在乎它的地方（分支、`SLT`、你自己的测试台）
+> 要保证数值装得下。这也是你问的两件事的区别：**进位输出是硬件给出的信息，溢出是对这个信息的解释**，
+> 两者只在部分情况下一致。
+
+**Why it is here and not in lesson 02.** A rule about wrapping needs a circuit that can wrap.
+`rtl/two_regs.v` below is the first one you write, and its `d[1:0]` is small enough that you can
+overflow it on purpose while the table in `sim/tb_rule.v` is yours to fill in.
+
+> **为什么放在这里。** 关于回绕的规则需要一只能回绕的电路。下面的 `rtl/two_regs.v` 是你写的第一只，
+> `d[1:0]` 小到可以故意让它溢出，而 `sim/tb_rule.v` 的表正好归你填。
+
+## 4. The clock is a testbench invention, sort of / 时钟：仿真里是测出来的，板子上有
 On the board there is a crystal; the Tang Nano 9K runs at 27 MHz, one cycle every 37 ns, and the
 `clk` pin gets it as a signal. In simulation nothing clocks anything unless your testbench toggles
 a `clk` variable. The standard form is:
@@ -108,7 +163,7 @@ Two things worth noticing before any of this is tested:
 >   `always @(posedge clk)` 和测试台里的 `always #5 clk = ~clk;` 是同一个关键字干两件无关的事。
 > - **频率是随便定的。** 取 10 ns 只是为了让仿真快。只要电路里没有东西数时间，电路分不出差别。
 
-## 3. Blocking `=` and non-blocking `<=` / 阻塞与非阻塞
+## 5. Blocking `=` and non-blocking `<=` / 阻塞与非阻塞
 
 Inside an `always` block, the two assignment operators behave differently in simulation:
 
@@ -170,7 +225,7 @@ is exactly why it is a rule and not a suggestion.
 > 要记住的一条：**`always @(posedge clk)` 里用 `<=`，`always @*` 里用 `=`。**
 > 寄存器的阻塞版本能编译、能仿真、小测试里还能过，所以它才必须是规则而不是建议。
 
-## 4. Reset / 复位
+## 6. Reset / 复位
 
 A register that comes out of the FPGA's power-up state with an unknown value (`x` in simulation)
 is not usable, so it has a reset input. Two styles:
@@ -204,7 +259,7 @@ in the testbench is the row that tells the two designs apart, and its value is y
 > （Gowin 器件有确定的初始值），但它们在仿真里会**掩盖坏的复位**：寄存器本来就是 0，
 > 没连上的复位也看不出错。测试台里的 case 0 就是区分这两种设计的那一行，值由你定。
 
-## 5. What the simulator does not tell you / 仿真不会告诉你的事
+## 7. What the simulator does not tell you / 仿真不会告诉你的事
 
 `always` and `<=` are simulation semantics, and two things follow that cost people real time:
 
@@ -222,7 +277,7 @@ in the testbench is the row that tells the two designs apart, and its value is y
 > - **测试台可能和设计犯同一个错**，于是两边一致，谁也看不出来。这就是
 >   `tb_rule.v` 的期望值从**你填的表**里读、而不是从设计输出里读的原因。
 
-## 6. Your task / 你的任务
+## 8. Your task / 你的任务
 
 Three files, `examples/03_clocked_rules/`:
 
@@ -256,7 +311,7 @@ where the time goes.
 
 > 时间：读 20 分钟，mux 10 分钟，寄存器 10 分钟，时间都花在表上。
 
-## 7. Questions / 问题
+## 9. Questions / 问题
 
 Write your questions anywhere in this file, right under the paragraph that caused them. I read
 the whole file every time. Original words are kept, and answers go where the question is.

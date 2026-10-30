@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-30 | Lesson 02 cut in half; `wire`/`reg` taught; overflow moved to lesson 03 | [line 32](LOG.md) |
 | 2026-10-30 | README lesson table lost its backticks during the renumbering; fixed | [line 31](LOG.md) |
 | 2026-10-30 | Lesson 03: `always`, clocks, blocking vs non-blocking | [line 30](LOG.md) |
 | 2026-10-30 | Lesson 02: binary arithmetic | [line 29](LOG.md) |
