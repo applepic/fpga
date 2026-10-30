@@ -87,7 +87,11 @@ Answers are inserted **in place**, in a folded callout, in this shape:
   `一个v` becomes 一个 `.v` 文件
 - **整理's language follows 原话.** Mixed-in English means an English restatement; pure Chinese means
   a Chinese restatement. Never translate an English technical term into Chinese
-- **The answer stays where the question is.** Do not collect them into a summary section at the end
+- **The answer stays where the question is.** Do not collect them into a summary section at the end,
+  and do not add an "answers to the questions of DATE" block either. He said this a second time on
+  2026-10-30 ("提问不要全放最下面啊，按照第一课那样在具体位置放") after I moved eleven of them
+  into one section at the bottom of lesson 02. A note saying "written under ..." is not a substitute
+  for the position.
 
 **When a question exposes a defect in the lesson, fix the lesson and say so in the answer.** Two
 examples from 2026-10-28: the "numbers carry their width" section sat *after* the operator table that
