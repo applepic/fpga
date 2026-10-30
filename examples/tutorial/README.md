@@ -7,3 +7,4 @@
 | Folder | Lesson | Status |
 |---|---|---|
 | `01_wires` | Tutorial lesson 1: `thruwire`, constraints, board build | ready 2026-10-30 |
+| `02_maskbus` | Tutorial lesson 2: buses, bit selects, `maskbus`, first testbench | ready 2026-10-30 |

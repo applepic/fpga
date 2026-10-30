@@ -25,7 +25,7 @@ ten lessons".
 | Lesson | Source | Topic | Exercise | Status |
 |---|---|---|---|---|
 | 01 | `lsn-01-wires.pdf`, slides 1-51 | Wires, `assign`, module skeleton, constraints, board build | `examples/tutorial/01_wires` | **ready 2026-10-30**, not started |
-| 02 | `lsn-01-wires.pdf`, same lesson | Bus signals, bit select, `maskbus`, simulation | `examples/tutorial/02_maskbus` | to be written |
+| 02 | `lsn-01-wires.pdf`, slides 18-44 | Bus signals, bit select, `maskbus`, first real testbench | `examples/tutorial/02_maskbus` | **ready 2026-10-30**, not started |
 | 03 | `lsn-02-regs.pdf` | Registers, `always @(posedge clk)`, blinky, PPS, dimmer | `examples/tutorial/03_registers` | to be written |
 | 04 | `lsn-03-fsm.pdf` | Finite state machines, LED walker | `examples/tutorial/04_fsm` | to be written |
 | 05 | `lsn-04-pipeline.pdf` | Building a Wishbone slave, pipelining | `examples/tutorial/05_wishbone` | to be written |

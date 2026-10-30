@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-30 | Tutorial lesson 02: `maskbus`, buses and bit selects, his first real testbench | [line 37](LOG.md) |
 | 2026-10-30 | Course replaced by the ZipCPU beginner tutorial; tutorial lesson 01 shipped | [line 36](LOG.md) |
 | 2026-10-30 | Tables stay English; lesson 02 section 0 restored | [line 35](LOG.md) |
 | 2026-10-30 | Layout-only questions folded; the last two mirror tables removed | [line 34](LOG.md) |
