@@ -156,9 +156,10 @@ the paragraph that caused it.
   for it is `examples/00_gates/sim/tb_checkpoint1.v`, which is his to write. Checkpoints 2 and 3 are
   being exercised earlier than strict order allows (lesson 02's `tb_sign.v`, lesson 03's expected-value
   table); the reason and the cost are recorded in `lessons/README.md`.
-- **`edge` is a Verilog keyword**, along with `integer`, `time`, `localparam` and the rest. Using one
-  as a task or port argument name makes iverilog report `syntax error` on that line with no further
-  hint. Measured on 2026-10-30 (`input edge;` in a task).
+- **`expect` is a Verilog keyword**, with `edge`, `time`, `localparam` and the rest. Using one as a
+  variable or task argument name makes iverilog report a cascade of `syntax error` lines on and below
+  that line, none of which name the keyword. Measured on 2026-10-30 (`integer expect;` and earlier
+  `input edge;` in a task).
 - **iverilog wants a name declared before the line that mentions it, including inside tasks.** A module
   variable used inside a task must be declared above that task, or elaboration fails with
   `Could not find variable`. Measured on 2026-10-30.
