@@ -93,6 +93,8 @@ Answers are inserted **in place**, in a folded callout, in this shape:
   into one section at the bottom of lesson 02. A note saying "written under ..." is not a substitute
   for the position.
 
+**A question about how the page looks is not a lesson question.** Layout, rendering, a broken table, a stray character: fix it and fold the note to `[!quote]- 已处理 · <what> (date)` holding only 原话 and one line of handling, no 整理, no open question. His standing instruction on 2026-10-30: "这种和内容无关的你改掉就删掉". Before saying a lesson renders, scan it for `^> |` (a quoted table under a real one) and for a table row followed by a non-blank non-table line.
+
 **When a question exposes a defect in the lesson, fix the lesson and say so in the answer.** Two
 examples from 2026-10-28: the "numbers carry their width" section sat *after* the operator table that
 used `4'b1100`, and the phrase "the lesson text warns about this" was left with nothing to point at.

@@ -12,8 +12,7 @@ tags:
 > 中英对照。英文是正文，单独读也完整；中文按段落跟在后面，放在引用块里。
 > 代码、信号名、命令、报错原文不翻译。
 >
-> Previous: `lessons/legacy_01_verilog_basics.md` (the first lesson under the old numbering;
-> passed 2026-10-29). Next: `lessons/03_always_and_clocks.md`.
+> Previous: `lessons/legacy_01_verilog_basics.md`. Next: `lessons/03_always_and_clocks.md`.
 > Exercise: `examples/02_adder`
 >
 > **Cut in half on 2026-10-30.** Your comment at the bottom said the lesson was too long and had
@@ -25,11 +24,10 @@ tags:
 > lesson 03, where there is an `always @*` example to hang it on) and the lesson's copy of
 > `signed` (now only in `examples/02_adder/sim/README.md`, where you need it).
 >
-> **Question placement, corrected again on 2026-10-30.** I had collected his eleven questions in
-> one section at the bottom. That is not the rule, and the rule was already written down: answers go
-> where the question was written, under the paragraph that caused it, as in the legacy lesson. They
-> are back at their positions, and the "written under ..." note in each one is gone, because the
-> position says it.
+> **Question placement, corrected again on 2026-10-30.** I had collected your eleven questions in
+> one section at the bottom. That is not the rule: they belong where they were written, right under
+> the paragraph that caused them, as in the legacy lesson. They are back at their positions now,
+> and the "written under ..." note in each one is gone, because the position says it.
 >
 > **Rendering was my layout error, not your reading.** A Chinese mirror table, or a `> `-quoted
 > Chinese copy, directly under an English table or code block makes Obsidian read the two as one
@@ -51,10 +49,21 @@ there are only two you need:
 | `wire` | a physical connection | nothing; it is whatever drives it, right now | in `assign` |
 | `reg` | a variable inside a procedural block | the last value written to it | inside `always` or `initial` |
 
-> | 类型 | 是什么 | 能存什么 | 能在哪里被赋值 |
-> |---|---|---|---|
-> | `wire` | 一根连接线 | 什么也不存，永远等于此刻驱动它的东西 | `assign` 里 |
-> | `reg` | 过程块里的变量 | 最后一次写进去的值 | `always` 或 `initial` 里 |
+> 中文说明：`wire` 是连线，什么也不存，只能在 `assign` 里赋值；`reg` 是过程块里的变量，
+> 存最后一次写进去的值，只能在 `always` 或 `initial` 里赋值。
+
+> [!question]- 提问 · 第 0 节的表在 Obsidian 里还是渲染错误
+> **原话**
+> 这个表格在obsidian还是渲染错误
+>
+> **整理**
+> This table still renders wrong in Obsidian.
+>
+> **回答**
+>
+> 你是对的，这一张上一轮漏了，中英两张表还叠在一起。现在改成单表，中文说明放在表下面。
+>
+> 我把这一课从头到尾又扫了一遍，表格都只剩单份；第 03 课也一起查过了。
 
 > [!question]- 提问 · wire 和 reg 也没和我讲
 > **原话**
@@ -117,20 +126,11 @@ The method you chose stays: read the bits as unsigned, and if the top bit is 1, 
 
 > 中文说明：最高位是 0 的行，两种读法一样，不用减；最高位是 1 的行，无符号读数减 16 就是有符号读数。
 
-> [!question]- 提问 · 第 1 节的表渲染错误了，可以删掉
+> [!quote]- 已处理 · 第 1 节的表渲染错误（2026-10-30）
 > **原话**
 > 这个表格渲染错误了，可以删掉
 >
-> **整理**
-> This table does not render. You may delete it.
->
-> **回答**
->
-> 表格内容没错，坏的是排版：英文表下面紧跟一行 `> | 位 | ... |` 的中文表，两张表之间只隔一个空行，
-> Obsidian 把它们读成一张表，列数对不上，整块退化成竖线文本。**是我的排版错误。**
->
-> 处理：这一课改成对每个点只放一张表，中文说明用引用块写在表下面，不再放第二张表。
-> 你原来看到的表内容一字没改，`2ⁿ` 和减 16 的说明现在在表下面那句话里。
+> **处理**：是我排版的问题，中英两张表被 Obsidian 并成了一张，已改成单表，表的内容一字没改。
 
 ## 2. Eight bits: the same 2ⁿ / 8 位：还是那个 2ⁿ
 
@@ -225,7 +225,7 @@ And when the top column carries out, the result needs one more bit than the inpu
   1 0 0 0 1      (17)   the fifth bit is the carry out
 ```
 
-> [!question]- 提问 · 这个渲染也有问题
+> [!quote]- 已处理 · 三个代码块的渲染（2026-10-30）
 > **原话**
 > 这个渲染也有问题
 > 。
@@ -233,17 +233,8 @@ And when the top column carries out, the result needs one more bit than the inpu
 > 。
 > 这个渲染有问题
 >
-> **整理**
-> The first `text` block does not render, the second does, the third does not.
->
-> **回答**
->
-> 三个代码块内容都对，坏的是排版：英文代码块下面紧跟一行以 `> ` 开头的中文副本，
-> 中间没有空行，Obsidian 把它接进代码块，代码块就没闭合，后面整段都变成灰色代码。
->
-> 处理：**代码块之间留空行，代码块里不放中文**。中文副本改成表下面的引用块说明。
-> 「这个没问题」那个块能显示，是因为它下面跟的是正文而不是 `> ` 行；能显示不代表排版是对的，
-> 所以三个块一起改了。
+> **处理**：是我排版的问题，代码块后面紧跟 `> ` 开头的行，代码块没闭合，已改成块之间留空行、块里不放中文。
+> 「这个没问题」那个块下面是正文，碰巧没坏；三个块一起改了。
 
 A one-bit adder therefore has three inputs and two outputs: `a`, `b`, `c_in` in, `sum` and `c_out`
 out. `c_in` is not a bit of `a` or `b`, it is **whatever the column on the right handed over**. The
@@ -345,19 +336,11 @@ Check with 4 bits, `3 - 5`:
   0011 + 1011 = 1110    read as signed: 14 - 16 = -2   correct
 ```
 
-> [!question]- 提问 · 渲染有问题，估计是前面有尖尖
+> [!quote]- 已处理 · `3 - 5` 代码块的渲染（2026-10-30）
 > **原话**
 > 渲染有问题，应该你打错了吧估计是前面有这个尖尖>
 >
-> **整理**
-> This does not render either; I guess it is the `>` at the front.
->
-> **回答**
->
-> 猜对了，就是 `>`。那一行是中文副本的引用标记，紧贴在代码块结束的 ``` 下面、中间没有空行，
-> Obsidian 于是把引用行当成代码块内容，代码块没闭合。
->
-> 这一课现在所有代码块的结束 ``` 后面都跟一个空行，代码块内部不放任何以 `>` 开头的行。
+> **处理**：猜对了，是 `>`。代码块后面紧跟一行 `>` 开头的行，块没闭合。已改成块后留空行、块内不放 `>` 开头的行。
 
 So `SUB` is `ADD` with the b input inverted and `c_in` tied to 1. That is why the RV32I ALU gets
 one adder and not two (lesson 13).
@@ -414,18 +397,11 @@ In the legacy lesson you saw `1111` extended to `11111111` keeps -1 while zero e
 > 中文说明：第三列不是笔误。位是对的，读出来还是 65535，因为读的那一方不知道你指的是有符号数。
 > **一个数落在哪一列，由读它的一方决定，不由写它的一方决定。**
 
-> [!question]- 提问 · 这都没渲染成表格
+> [!quote]- 已处理 · 符号扩展表的渲染（2026-10-30）
 > **原话**
 > 这都没渲染成表格
 >
-> **整理**
-> These do not render as tables.
->
-> **回答**
->
-> 和第 1 节同一个原因：两个表并排，或者表格后面紧贴 `> ` 行。这一课的表格已经全部改成单份，
-> 中文说明放在表下面，`reg [7:0] u;` 那个例子也一样（那个例子已经删了，`signed` 只留在
-> `examples/02_adder/sim/README.md`）。
+> **处理**：和第 1 节同一个原因，两张表被并成一张。已改成单表，中文说明放在表下面。
 
 ## 6. Your task / 你的任务
 

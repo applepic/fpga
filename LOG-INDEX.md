@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-30 | Layout-only questions folded; the last two mirror tables removed | [line 34](LOG.md) |
 | 2026-10-30 | Lesson 02 answers put back at their own positions; never collected at the bottom | [line 33](LOG.md) |
 | 2026-10-30 | Lesson 02 cut in half; `wire`/`reg` taught; overflow moved to lesson 03 | [line 32](LOG.md) |
 | 2026-10-30 | README lesson table lost its backticks during the renumbering; fixed | [line 31](LOG.md) |

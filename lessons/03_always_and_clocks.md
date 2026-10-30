@@ -7,8 +7,8 @@
 > 中英对照。英文是正文，单独读也完整；中文按段落跟在后面，放在引用块里。
 > 代码、信号名、命令、报错原文不翻译。
 >
-> Previous: [[Lesson-02-Binary-Arithmetic]] · Next: Lesson 04, `examples/01_counter`
-> （讲义还没写，测试台已经在了）
+> Previous: `lessons/02_binary_arithmetic.md`. Next: lesson 04, `examples/01_counter` (the
+> testbench exists, the lesson text does not).
 >
 > Exercise: `examples/03_clocked_rules`. Run it today and read the output before you start
 > reading this; the printed table is easier to argue with than the text.
@@ -237,10 +237,7 @@ is not usable, so it has a reset input. Two styles:
 | synchronous | inside `always @(posedge clk)`, `if (rst) q <= 0; else ...` | reset only takes effect at a clock edge |
 | asynchronous | `always @(posedge clk or posedge rst)`, `if (rst) q <= 0; else ...` | reset acts immediately, even with no clock |
 
-> | 风格 | 复位在哪里判断 | 仿真里看到什么 |
-> |---|---|---|
-> | 同步 | `always @(posedge clk)` 里面，`if (rst) q <= 0; else ...` | 复位只在时钟沿生效 |
-> | 异步 | `always @(posedge clk or posedge rst)`，`if (rst) ... else ...` | 复位立刻生效，没有时钟也生效 |
+> 中文说明：同步复位只在时钟沿生效；异步复位的敏感表里多一个 `posedge rst`，没有时钟也会立刻复位。
 
 **Rules 5-7** are what to write in `rtl/two_regs.v`: synchronous, active high, checked before
 `en`. The active level is the design's, so `rst` not `rst_n`; lesson 4's counter uses `rst_n`
