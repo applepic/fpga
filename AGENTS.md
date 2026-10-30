@@ -13,7 +13,9 @@
 text with Chinese following each paragraph as a blockquote. When writing or editing a lesson:
 - English first and complete on its own; Chinese is a per-paragraph translation, not a summary
 - Do not translate code, signal names, commands, error messages or file paths
-- Tables may carry both languages in one cell, separated by `/`
+- **Tables are English.** He said on 2026-10-30: "要保留英文啊，中文有没有无所谓". A Chinese mirror table
+  under an English one also breaks rendering in Obsidian, which cost four rounds. The Chinese text
+  under a table is a blockquote, not a second table.
 - Docs outside `lessons/` (SPEC, LEARNING, AGENTS, README, LOG) stay **English only**
 
 ## #2 Read the docs before touching anything

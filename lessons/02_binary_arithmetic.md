@@ -52,19 +52,6 @@ there are only two you need:
 > 中文说明：`wire` 是连线，什么也不存，只能在 `assign` 里赋值；`reg` 是过程块里的变量，
 > 存最后一次写进去的值，只能在 `always` 或 `initial` 里赋值。
 
-> [!question]- 提问 · 第 0 节的表在 Obsidian 里还是渲染错误
-> **原话**
-> 这个表格在obsidian还是渲染错误
->
-> **整理**
-> This table still renders wrong in Obsidian.
->
-> **回答**
->
-> 你是对的，这一张上一轮漏了，中英两张表还叠在一起。现在改成单表，中文说明放在表下面。
->
-> 我把这一课从头到尾又扫了一遍，表格都只剩单份；第 03 课也一起查过了。
-
 > [!question]- 提问 · wire 和 reg 也没和我讲
 > **原话**
 > 这又是啥，wire和reg也没和我讲
@@ -84,6 +71,12 @@ there are only two you need:
 >
 > `reg signed [7:0] s;` 里的 `signed` 只说「读它的时候按有符号读」，和 `reg` 能不能存值无关，
 > 是两件不相干的事。
+
+> [!quote]- 已处理 · 表格用英文，中文说明可以不要（2026-10-30）
+> **原话**
+> 要保留英文啊，中文有没有无所谓
+>
+> **处理**：表格一律英文。第 0 节这张表已换回英文。
 
 Two facts matter more than the table:
 
