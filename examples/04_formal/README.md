@@ -1,6 +1,6 @@
 # Exercise 02: prove it, do not just test it
 
-**Lesson**: [Lesson 4](../lessons/04_formal_refinement.md)
+**Lesson**: Lesson 05. The file keeps its old name `lessons/04_formal_refinement.md` from before the 2026-10-30 renumbering.
 
 **The point of this exercise is not the counter.** A saturating counter is trivial. The point is
 that you get a **proof**, not a sample. Simulation asks "did this input sequence behave?", and the
@@ -83,7 +83,7 @@ reset was supposed to rule out.
   note in `props_sat_counter.v` about `f_past_valid` first, then decide whether you still need one
 - The comparison `count != 8'd200` is a guard on the **assignment**, not on the assertion.
   Getting the guard into the wrong place produces a counter that is off by one
-- `always @(posedge clk)` with a non-blocking assignment (`<=`) is the same rule as Lesson 2.
+- `always @(posedge clk)` with a non-blocking assignment (`<=`) is the same rule as Lesson 03.
   Nothing about formal changes how the hardware works
 
 </details>

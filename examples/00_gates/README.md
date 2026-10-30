@@ -1,6 +1,7 @@
 # Exercise 00: four basic gates
 
-**Lesson**: [Lesson 1](../lessons/01_verilog_basics.md)
+**Lesson**: `lessons/legacy_01_verilog_basics.md` (old lesson 1, passed 2026-10-29); the vault
+copy you read is `01_Projects/FPGA/Lesson-01-Combinational-Logic.md`
 
 **The point of this exercise is not to learn gate logic** (that part is trivial).
 It is to see with your own eyes that **Verilog describes circuit structure, not execution order**.
@@ -39,7 +40,15 @@ cd C:\Local_Data\Dev\fpga
 
 All four input combinations correct, ending with `=== ALL PASS ===`.
 
-**The testbench is the acceptance criteria. Do not modify it.**
+**The testbench is yours: `sim/tb_checkpoint1.v`.** You wrote `rtl/gates.v` on 2026-10-29, and
+that is when the handover rule took effect: the testbench I wrote (`tb_gates.v`) was removed from
+the repository on 2026-10-30, because shipping a working checker beside "now write your own"
+makes the exercise fictional. The new file has the shape to fill and no expected values.
+
+The testbench is the acceptance criteria, so the expected values have to come from the lesson's
+truth table, not from the design's operators. `git show 40b7d48:examples/00_gates/sim/tb_gates.v`
+is the version I wrote, kept in history for reference. When yours is done, tell me; I run the
+unchanged original against the same design.
 
 ## After it passes
 

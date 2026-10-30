@@ -1,4 +1,13 @@
-# Lesson 1: What you are actually writing in Verilog / 你在 Verilog 里到底在写什么
+# Lesson 1 (legacy): What you are actually writing in Verilog / 你在 Verilog 里到底在写什么
+
+> **Legacy file, renamed 2026-10-30.** This was lesson 1, passed on 2026-10-29. The course was
+> renumbered the next day (see `lessons/README.md`) and the new numbering starts at 02, because a
+> done lesson does not need a number in the queue. Content is unchanged; the exercise's testbench
+> is now `examples/00_gates/sim/tb_checkpoint1.v`, which is the one you write.
+>
+> **历史文件，2026-10-30 改名。** 这是旧的第 1 课，2026-10-29 已通过。第二天重排课号，新编号从
+> 02 开始，因为已经通过的课不需要占队列里的号。正文没动；练习的测试台已换成你要自己写的
+> `examples/00_gates/sim/tb_checkpoint1.v`。
 
 > **Bilingual format, from 2026-10-28.** English is the primary text and is complete on its own.
 > Chinese follows each paragraph as a blockquote, so you read English first and drop into Chinese
@@ -78,9 +87,9 @@ and has no memory of what happened before.
 
 > 这两个词合起来描述的是**组合逻辑**：输出只取决于当前的输入，不记得之前发生过什么。
 
-The moment you want memory, you need `always` and a clock. That is Lesson 2.
+The moment you want memory, you need `always` and a clock. That is lesson 03.
 
-> 一旦你想要「记得」，就需要 `always` 和时钟。那是第 2 课。
+> 一旦你想要「记得」，就需要 `always` 和时钟。那是第 03 课。
 
 ## 1.3 Bitwise operators, and one critical difference
 
@@ -303,15 +312,15 @@ Deriving it is the point; copying it is not.
 
 > 动手之前先在纸上把这四行画出来，再和这张表对。推出来才有意义，抄没有。
 
-**Come back and tell me when you are done**, and I will set you two questions.
-Only after you pass do we move to Lesson 2 (`always` blocks and clocks).
+**This lesson was passed on 2026-10-29.** The next lesson is 02 (binary arithmetic), then 03
+(`always` and clocks).
 
-> **做完回来告诉我**，我出两道题。过了才进第 2 课（`always` 和时钟）。
+> **本课 2026-10-29 已通过。** 下一课是 02（二进制运算），再下一课 03（`always` 和时钟）。
 
-> Hint: four `assign` statements, one per line. Do not use `always`; that is Lesson 2.
+> Hint: four `assign` statements, one per line. Do not use `always`; that is lesson 03.
 > If you are stuck for more than 30 minutes, ask me. Try on your own first.
 >
-> 提示：四条 `assign`，一行一条。不要用 `always`，那是第 2 课。
+> 提示：四条 `assign`，一行一条。不要用 `always`，那是第 03 课。
 > 卡住超过 30 分钟再来问，先自己试。
 
 ---

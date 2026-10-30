@@ -1,7 +1,10 @@
-# Lesson 4: Refinement, or what a proof gives you that a test does not
+# Lesson 05: Refinement, or what a proof gives you that a test does not
 
-**Prerequisite**: Lesson 1 (`assign`, combinational logic), Lesson 2 (`always @(posedge clk)`),
-Lesson 3 (counters). This lesson builds on all three.
+> Numbered 4 in this file's name before the 2026-10-30 renumbering; the course index calls it
+> lesson 05. Content is unchanged.
+
+**Prerequisite**: legacy lesson 1 (`assign`, combinational logic), lesson 03 (`always @(posedge clk)`),
+lesson 04 (counters). This lesson builds on all of them.
 
 About 40 minutes of reading, then an exercise.
 
@@ -9,7 +12,7 @@ About 40 minutes of reading, then an exercise.
 
 ## 4.1 The question this lesson answers
 
-In Lesson 3 you wrote a counter and a testbench checked it for 20 clock cycles.
+In lesson 04 you write a counter and a testbench checks it for 20 clock cycles.
 
 Here is the problem with that. The testbench checks **the 20 cycles you thought of**. If your
 counter breaks on cycle 201, or only when `inc` is high during a reset, your testbench never
@@ -151,5 +154,5 @@ That is your starting point.
 **Come back and tell me when you are done**, and I will set you three questions. One of them will
 be about the difference between `assert` and `assume`, and it will not be the easy version.
 
-> Hint: the counter logic is four lines and you already know it from Lesson 3. The work in this
+> Hint: the counter logic is four lines and you already know it from lesson 04. The work in this
 > lesson is reading the property file until you can say what each line constrains.

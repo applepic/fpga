@@ -1,6 +1,8 @@
 # Exercise 01: 4-bit counter
 
-**Lesson**: Lesson 3 (not written yet). This exercise is ready early; do not start it until Lesson 1 and 2 are done.
+**Lesson**: Lesson 4. The lesson text is not written yet; the testbench was here from 2026-10-18.
+Do not start it until Lesson 3 (`lessons/03_always_and_clocks.md`) is passed: a counter is one
+register plus one addition, and the register is Lesson 3.
 
 **Goal**: a binary counter that cycles 0 to 15.
 

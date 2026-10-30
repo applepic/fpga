@@ -11,15 +11,15 @@ Learning FPGA from zero, ending with a Verilog RV32I processor core running on a
 
 ## Start here
 
-**Begin with [Lesson 1](lessons/01_verilog_basics.md).** Do not jump to RV32I.
+**Begin with [Lesson 02](lessons/02_binary_arithmetic.md).** Then [Lesson 03](lessons/03_always_and_clocks.md). Do not jump to RV32I.
 
 The course runs one lesson at a time. Each lesson has an exercise directory:
-`sim/` holds the testbench (the acceptance criteria, do not modify), and `rtl/` is empty for you to fill in.
+`sim/` holds the acceptance testbench and, from Lesson 02 on, the part of it that is yours to fill in; `rtl/` is empty for you to fill in.
 
 ```powershell
 cd C:\Local_Data\Dev\fpga
 . .\env.ps1
-.\scripts\sim.ps1 -Project examples/00_gates
+.\scripts\sim.ps1 -Project examples/02_adder
 ```
 
 It reports `Unknown module type` right now. That is the starting point.
@@ -72,8 +72,10 @@ All pin assignments live in `constraints/tangnano9k.cst`; sources and verificati
 | File | Contents |
 |---|---|
 | [lessons/README.md](lessons/README.md) | **Course index and progress table.** How to walk the route |
-| [lessons/01_verilog_basics.md](lessons/01_verilog_basics.md) | **Lesson 1**: `wire` / `assign` / bitwise ops / simulation |
-| [lessons/04_formal_refinement.md](lessons/04_formal_refinement.md) | **Lesson 4**: refinement, `assert` / `assume`, proofs with `sby` |
+| [lessons/02_binary_arithmetic.md](lessons/02_binary_arithmetic.md) | **Lesson 02**: two's complement, addition, sign extension |
+| [lessons/03_always_and_clocks.md](lessons/03_always_and_clocks.md) | **Lesson 03**: `always`, clocks, blocking vs non-blocking, reset |
+| [lessons/legacy_01_verilog_basics.md](lessons/legacy_01_verilog_basics.md) | Legacy lesson 1 (passed 2026-10-29): `wire` / `assign` / bitwise ops |
+| [lessons/04_formal_refinement.md](lessons/04_formal_refinement.md) | **Lesson 05** (file numbered before the 2026-10-30 renumbering): refinement, `assert` / `assume`, proofs with `sby` |
 | [LEARNING.md](LEARNING.md) | **Route.** Four phases (A/B/C single cycle, D pipeline), acceptance criteria per phase, toolchain traps |
 | [SPEC.md](SPEC.md) | RV32I scope and open questions |
 | [AGENTS.md](AGENTS.md) | Instructions for AI agents working in this repo |
@@ -81,7 +83,7 @@ All pin assignments live in `constraints/tangnano9k.cst`; sources and verificati
 | `docs/` | Reference book, not in git |
 
 > **Route vs course**: `LEARNING.md` says "phase A means you can write sequential logic".
-> `lessons/` says "Lesson 2 covers `always`, Lesson 3 is a counter". One is the goal, the other is the path.
+> `lessons/` says "Lesson 03 covers `always`, Lesson 04 is a counter". One is the goal, the other is the path.
 
 ## References
 

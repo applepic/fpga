@@ -4,6 +4,10 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-30 | README lesson table lost its backticks during the renumbering; fixed | [line 31](LOG.md) |
+| 2026-10-30 | Lesson 03: `always`, clocks, blocking vs non-blocking | [line 30](LOG.md) |
+| 2026-10-30 | Lesson 02: binary arithmetic | [line 29](LOG.md) |
+| 2026-10-30 | Course renumbered to 02-24; gates testbench handed back to the user | [line 28](LOG.md) |
 | 2026-10-29 | Lesson 1 passed; record the three prerequisite gaps found by the audit | [line 27](LOG.md) |
 | 2026-10-29 | Gate the testbench handover on capability checkpoints and remove same-origin expected values | [line 26](LOG.md) |
 | 2026-10-28 | Hand over testbench writing to the user on a per-lesson schedule | [line 25](LOG.md) |

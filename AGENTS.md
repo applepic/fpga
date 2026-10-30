@@ -147,12 +147,24 @@ the paragraph that caused it.
 ## #6 Prohibited
 - **Do not give away RV32I answers before phases A and B are complete.** He wants to learn, not to receive a finished product.
   When stuck, give reasoning and debugging method, never complete code.
-- **Do not write the exercise implementations under `examples/`.** Only testbenches (acceptance criteria) and READMEs belong there.
+- **Do not write the exercise implementations under `examples/`.** Only testbenches (acceptance criteria, plus the part of a testbench that is his) and READMEs belong there.
   `rtl/` being empty is **intentional**. Give hints, not code.
 - **Who writes the testbench follows the capability checkpoints in `lessons/README.md`, not lesson
   numbers.** The four checkpoints are: read a truth table, write expected values, design stimulus,
-  adjudicate a conflict. He can be on lesson 8 and still be stuck at checkpoint 1; do not advance the
-  handover just because time passed. **Checkpoint 1 was not cleared as of 2026-10-29.**
+  adjudicate a conflict. He can be on lesson 12 and still be stuck at checkpoint 1; do not advance the
+  handover just because time passed. **Checkpoint 1 was not cleared as of 2026-10-30**; the next step
+  for it is `examples/00_gates/sim/tb_checkpoint1.v`, which is his to write. Checkpoints 2 and 3 are
+  being exercised earlier than strict order allows (lesson 02's `tb_sign.v`, lesson 03's expected-value
+  table); the reason and the cost are recorded in `lessons/README.md`.
+- **`edge` is a Verilog keyword**, along with `integer`, `time`, `localparam` and the rest. Using one
+  as a task or port argument name makes iverilog report `syntax error` on that line with no further
+  hint. Measured on 2026-10-30 (`input edge;` in a task).
+- **iverilog wants a name declared before the line that mentions it, including inside tasks.** A module
+  variable used inside a task must be declared above that task, or elaboration fails with
+  `Could not find variable`. Measured on 2026-10-30.
+- **A declaration initialiser in a testbench reads the DUT before the DUT's processes have started.**
+  `reg [1:0] seen = q;` measured `2'bxx` even when the design set `q = 0`; `initial seen = q;` measured
+  correctly. Use an `initial` block when a testbench variable depends on a design signal.
 - **Expected values in a testbench must never be recomputed from the same operators the RTL uses.**
   `exp_and = a & b` beside `assign y_and = a & b` is same-origin verification: one misunderstanding
   passes the test twice. Copy the expected values from the written specification instead. Measured

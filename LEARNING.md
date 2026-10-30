@@ -243,7 +243,10 @@ His recorded failure mode is the opposite: treating "I have seen this" as "I hav
 which by definition means the gap is invisible to him. A shorter lesson cannot catch that. A question
 he cannot answer can.
 
-Target length for lesson 2 onward: roughly one third of lesson 1.
+Target length for lesson 02 onward: roughly one third of the legacy lesson 1. Lesson 02 came in
+at about half of it and stopped there on purpose; anything he already derived himself (`1100`,
+the 4-bit table) is compressed to one row, anything new (cost, overflow, `signed` comparison)
+gets the space.
 
 ## Reference files
 
