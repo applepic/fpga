@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-10-30 | Course replaced by the ZipCPU beginner tutorial; tutorial lesson 01 shipped | [line 36](LOG.md) |
 | 2026-10-30 | Tables stay English; lesson 02 section 0 restored | [line 35](LOG.md) |
 | 2026-10-30 | Layout-only questions folded; the last two mirror tables removed | [line 34](LOG.md) |
 | 2026-10-30 | Lesson 02 answers put back at their own positions; never collected at the bottom | [line 33](LOG.md) |

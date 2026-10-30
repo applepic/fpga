@@ -11,18 +11,25 @@ Learning FPGA from zero, ending with a Verilog RV32I processor core running on a
 
 ## Start here
 
-**Begin with [Lesson 02](lessons/02_binary_arithmetic.md).** Then [Lesson 03](lessons/03_always_and_clocks.md). Do not jump to RV32I.
+**Begin with [Tutorial lesson 01](lessons/tutorial_01_wires.md).** The course is the
+[ZipCPU beginner tutorial](https://zipcpu.com/tutorial/) restructured into lessons: ten source
+lessons, split into eleven here. Do not jump to RV32I.
 
-The course runs one lesson at a time. Each lesson has an exercise directory:
-`sim/` holds the acceptance testbench and, from Lesson 02 on, the part of it that is yours to fill in; `rtl/` is empty for you to fill in.
+> **2026-10-30: the self-written 24-lesson sequence is retired.** It is kept under `lessons/02_*` …
+> `lessons/04_*` and `examples/00_gates`, `01_counter`, `02_adder`, `03_clocked_rules`, `04_formal`
+> for reference, with his questions still inside the vault copies. The tutorial path is separate and
+> numbered `Tutorial NN`.
+
+The course runs one lesson at a time. Each lesson has an exercise directory under
+`examples/tutorial/NN_name/`, with a `README.md` and the part of the code that is his to write.
 
 ```powershell
 cd C:\Local_Data\Dev\fpga
 . .\env.ps1
-.\scripts\sim.ps1 -Project examples/02_adder
+.\scripts\build.ps1 -Project examples/tutorial/01_wires
 ```
 
-It reports `Unknown module type` right now. That is the starting point.
+It stops at `yosys failed, exit code 1`, with `Warning: ... module top not found` above it, because no `.v` file in the project defines `top` yet. That is the starting point, not a broken toolchain.
 
 ## Environment
 

@@ -22,3 +22,6 @@ sim/output/
 
 # 参考书（体积大，版权原因不进 git）
 docs/
+
+# ZipCPU tutorial source (PDFs and page-indexed text, copyright: read locally, not in git)
+tutorials/
