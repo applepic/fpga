@@ -101,12 +101,12 @@ endmodule
 | `assign o_led = i_sw;` | Connects `o_led` to `i_sw` permanently. `assign` is "solder a wire", not "run an assignment once" |
 | `endmodule` | Ends the module |
 
-> `assign` 那一行是整课的重点：它不是「执行一次赋值」，是把两个名字永久接在一起，
-> 所以和顺序、和执行次数都无关，接上就一直有效。
+> `assign` 那一行是整课的重点：两个名字被永久接在一起，接上就一直有效。它没有「执行一次」的意思，
+> 所以和顺序、和执行次数都无关。
 
 整个教程的端口和信号都按方向起名：`i_` 是输入，`o_` 是输出，`w_` 是内部线。照着做，以后读别人
-三百行代码时不用翻回声明就知道方向。这一条不是 Verilog 的规定，也不在原文字面上，是作者在例子里
-一直用的习惯，这个仓库从第 1 课起跟着用。
+三百行代码时不用翻回声明就知道方向。这条习惯只出现在原文的示例代码里，幻灯片上没有一句话把它写成
+规定；Verilog 本身也不要求，这个仓库从第 1 课起跟着用。
 
 > A convention the whole tutorial keeps in its examples: `i_` for input, `o_` for output, `w_` for an
 > internal wire. Following it means you never have to scroll back to a declaration to know a signal's
@@ -167,7 +167,7 @@ endmodule
 > | 不加这条指令 | 报错 `Unable to bind wire/reg/memory 'i_sww'`，退出码 2 | 只给一行 `Warning: Identifier 'i_sww' is implicitly declared`，然后**综合通过**，位流照出 |
 > | 加上这条指令 | 同一句报错 | 报错 ``ERROR: Identifier 'i_sww' is implicitly declared and `default_nettype is set to none``，退出码 1 |
 >
-> 所以它拦的不是仿真，是综合。仿真里 iverilog 本来就拦得住，但 `build.ps1` 走的是 yosys，
+> 所以它主要拦的是综合那一步。仿真里 iverilog 本来就拦得住，但 `build.ps1` 走的是 yosys，
 > 而 yosys 只警告不报错，警告混在几十行 log 里很容易漏掉。
 >
 > 拼错的名字出现在 `assign` 的**左边**更糟（`assign o_ledd = i_sw;`）：不加指令时 iverilog 退出码
