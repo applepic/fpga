@@ -80,15 +80,27 @@ Answers are inserted **in place**, in a folded callout, in this shape:
 > a cleaned-up restatement with the symbols fixed
 >
 > **回答**
+>
 > the answer
 ```
 
-- **原话 is copied verbatim**, including profanity and full-width punctuation. Editing it destroys
+**The blank `>` after `回答` is not cosmetic and is not optional.** `原话` and `整理` take their text
+on the line directly below the label; `回答` takes a blank `>` line first, so the answer starts as its
+own paragraph. Without it Obsidian renders the label and the first sentence of the answer on one line,
+which is exactly how lesson 01 shipped on 2026-11-01 and he caught it by pointing at the two earlier
+lessons. Measured convention in both of them: `回答` has the blank line 20 of 20 and 7 of 7 times,
+while `原话` and `整理` never do (0 of 20, 0 of 12, 0 of 7). This example was wrong before that date,
+which is why the mistake was made at all.
+
+- **`整理`'s language follows `原话`.** Mixed-in English means an English restatement; pure Chinese
+  means a Chinese restatement. Never translate an English technical term into Chinese. This is the
+  rule stated in the legacy lesson's own `[!info]` block, so treat it as a requirement rather than a
+  preference. The legacy file itself breaks it 4 times out of 20 (a pure-Chinese question restated in
+  English); those are its defects, not precedent. Do not go back and rewrite them.
+- **`原话` is copied verbatim**, including profanity and full-width punctuation. Editing it destroys
   the record of where he actually got stuck
-- **整理 fixes symbols and wording, not meaning**: `！v` becomes `!v`, `这个4'` becomes `4'b1100`,
+- **`整理` fixes symbols and wording, not meaning**: `！v` becomes `!v`, `这个4'` becomes `4'b1100`,
   `一个v` becomes 一个 `.v` 文件
-- **整理's language follows 原话.** Mixed-in English means an English restatement; pure Chinese means
-  a Chinese restatement. Never translate an English technical term into Chinese
 - **The answer stays where the question is.** Do not collect them into a summary section at the end,
   and do not add an "answers to the questions of DATE" block either. He said this a second time on
   2026-10-30 ("提问不要全放最下面啊，按照第一课那样在具体位置放") after I moved eleven of them

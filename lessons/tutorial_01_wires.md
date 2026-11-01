@@ -45,6 +45,7 @@ endmodule
 > What is `sw`, and why is the signal named that way?
 >
 > **回答**
+>
 > `sw` 是 switch，原文那块板子上是一个拨动开关。我们这块 Tang Nano 9K 没有开关，只有两个按键，
 > 所以同一个信号在这里叫 `btn[0]`。名字是从原文照搬的，功能没变：一个输入，一根线接到 LED。
 >
@@ -60,9 +61,10 @@ endmodule
 > assign 后面的意义所以可以是o在前也可以i在前
 >
 > **整理**
-> 所以 `assign` 后面写 `o` 在前可以，写 `i` 在前也可以？
+> So can `assign` be written with `o` first, or with `i` first? Either order works?
 >
 > **回答**
+>
 > 不能对调。`assign 左边 = 右边` 的意思是「用右边驱动左边」，左边必须是可以被驱动的东西：
 > 一根 `wire`，包括 `output wire`。`i_sw` 是 `input`，它的值来自芯片外面的引脚，
 > 设计内部不能去驱动它。
@@ -121,6 +123,7 @@ endmodule
 > What is an internal wire?
 >
 > **回答**
+>
 > 既不是输入也不是输出的线，只在这个模块内部存在。三种名字对比：
 >
 > | 名字 | 方向 | 谁驱动它 | 例子 |
@@ -154,9 +157,10 @@ endmodule
 > 什么意思
 >
 > **整理**
-> What does `` `default_nettype none `` mean, and what happens without it?
+> `` `default_nettype none `` 是什么意思？不加它会发生什么？
 >
 > **回答**
+>
 > Verilog 有一条老规矩：**用了没声明过的名字，工具自动给你补一根 1 位的 `wire`**。这条规矩叫
 > implicit net。它让写错名字的代码也能编译通过，只是电路是错的。
 >
@@ -213,6 +217,7 @@ IO_LOC  "led[0]" 10;
 > Do I need to be able to write this `.cst` file myself?
 >
 > **回答**
+>
 > 这一课不用，你写 `top.v` 就够了。`constraints/tangnano9k.cst` 已经写好，`build.ps1` 默认就用它。
 >
 > 但要知道它为什么长这样，因为它决定了你的端口**必须**叫 `btn` 和 `led`。原文第 5 到 8 页花四页讲
