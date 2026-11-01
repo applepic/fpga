@@ -49,9 +49,9 @@ endmodule
 > 所以同一个信号在这里叫 `btn[0]`。名字是从原文照搬的，功能没变：一个输入，一根线接到 LED。
 >
 > 名字里的 `i_` 和 `o_` 是作者的命名习惯：`i_` 开头是输入，`o_` 开头是输出，`w_` 开头是内部线。
-> 原文的代码从头到尾这么写（第 1 课后半的 `w_internal`，第 10 课的 `w_wr`、`w_rd`）。
+> 原文的代码从头到尾这么写（第 2 课的 `w_internal`，最后一课 FIFO 的 `w_wr`、`w_rd`）。
 > Verilog 不强制，写成 `a` 和 `b` 电路一模一样。它的用处是读代码时不用翻回端口声明就知道方向，
-> 第 7 课以后一个模块几十根线，这个差别会很明显。
+> 一个模块几十根线的时候，这个差别会很明显。
 >
 > `thruwire` 是 through wire，直通线。
 
@@ -261,7 +261,7 @@ IO_LOC  "led[0]" 10;
 
 > Two things to work out yourself: how to pass one bit of a 2-bit input into a 1-bit port, and
 > whether the active-low LED and active-low button mean a `~` is needed somewhere. Answer the second
-> in your own words; a wrong reason here shows up in lesson 7's debouncing.
+> in your own words; a wrong reason here shows up again in lesson 09 (debouncing).
 
 **第 3 步：跑起来，两遍。**
 
