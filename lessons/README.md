@@ -56,6 +56,44 @@ ten lessons".
 3. **Exercises.** Each lesson has a folder with a `README.md` and the part of the code that is his to
    write. Testbench ownership still follows the capability checkpoints below.
 
+## How his questions are answered
+
+He writes questions into the **vault** copy (`C:\Local_Data\Obsidian\01_Projects\FPGA\Tutorial-NN-*.md`),
+in place, under the paragraph that lost him. Answers go back in place, never collected at the bottom,
+in a folded callout with three fixed parts. The shape is exact, and one line of it is easy to get wrong:
+
+```markdown
+> [!question]- 提问 · one-line summary
+> **原话**
+> his exact words, copied unchanged
+>
+> **整理**
+> a cleaned-up restatement with the symbols fixed
+>
+> **回答**
+>
+> the answer starts here, as its own paragraph
+```
+
+`原话` and `整理` take their text on the line directly below the label. **`回答` takes a bare `>` line
+first.** Without it Obsidian renders the label and the first sentence of the answer on one line. Both
+reference lessons do this without exception (`Lesson-01-legacy-Combinational-Logic.md` 20 of 20,
+`Lesson-02-Binary-Arithmetic.md` 7 of 7); tutorial lesson 01 shipped 0 of 5 and he caught it by
+pointing at the two of them. Full rules, including the `整理` language rule, are in
+[AGENTS.md](../AGENTS.md) #2.7.
+
+**Check it rather than eyeballing it:**
+
+```powershell
+.\scripts\lint-lessons.ps1
+```
+
+It exits 0 when every lesson file has the shape above, and lists `file:line` for anything that does
+not: a missing blank `>` after `回答`, a stray one after `原话`/`整理`, a callout with no blank line
+above it, a quoted table under a real one, a table row followed by a non-table line, an unclosed code
+fence. Run it after editing any lesson, before saying the lesson is done. It was validated against the
+pre-fix lesson 01, where it reports exactly the five bad lines.
+
 ## Retired course
 
 The 24-lesson sequence was written between 2026-10-18 and 2026-10-30. Files kept for reference, not

@@ -43,6 +43,7 @@ It stops at `yosys failed, exit code 1`, with `Warning: ... module top not found
 | `.\scripts\flash.ps1 -Project <dir>` | Program SRAM (lost on power cycle) |
 | `.\scripts\flash.ps1 -Project <dir> -Flash` | Program Flash (persists) |
 | `.\scripts\formal.ps1 -Project <dir>` | Formal proof with `sby`, writes `build/formal/` |
+| `.\scripts\lint-lessons.ps1` | Check the lesson files' callout shape and tables; exits 1 and prints `file:line` on a problem |
 
 **Self-test**: `.\scripts\sim.ps1 -Project infra/toolchain_smoke` and
 `.\scripts\build.ps1 -Project infra/toolchain_smoke` should both pass.
@@ -78,7 +79,7 @@ All pin assignments live in `constraints/tangnano9k.cst`; sources and verificati
 
 | File | Contents |
 |---|---|
-| [lessons/README.md](lessons/README.md) | **Course index and progress table.** How to walk the route |
+| [lessons/README.md](lessons/README.md) | **Course index and progress table.** How to walk the route, and the exact shape his questions are answered in |
 | [lessons/02_binary_arithmetic.md](lessons/02_binary_arithmetic.md) | **Lesson 02**: two's complement, addition, sign extension |
 | [lessons/03_always_and_clocks.md](lessons/03_always_and_clocks.md) | **Lesson 03**: `always`, clocks, blocking vs non-blocking, reset |
 | [lessons/legacy_01_verilog_basics.md](lessons/legacy_01_verilog_basics.md) | Legacy lesson 1 (passed 2026-10-29): `wire` / `assign` / bitwise ops |
