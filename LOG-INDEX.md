@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-11-01 | Tutorial lesson 01: his six questions answered in place; the `default_nettype` paragraph was wrong and is rewritten | [line 40](LOG.md) |
 | 2026-10-30 | Tutorial lesson 04: clock dividers, PPS, timing checks, dimmer; source lesson 2 split | [line 39](LOG.md) |
 | 2026-10-30 | Tutorial lesson 03: registers, blinky, and the parameter trick | [line 38](LOG.md) |
 | 2026-10-30 | Tutorial lesson 02: `maskbus`, buses and bit selects, his first real testbench | [line 37](LOG.md) |

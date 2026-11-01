@@ -11,11 +11,25 @@
 one is handed to you in full as well. There is nothing to invent in it, and inventing something would
 be a mistake.
 
+**One line to add to it: `` `default_nettype none `` at the very top, above `module`.** Put the same
+line at the top of your `top.v` too. It turns an undeclared name into a hard error instead of a
+silently created wire. Why it is not optional here: `build.ps1` synthesises with yosys, and yosys only
+*warns* about an implicitly declared identifier, while `iverilog` errors. Measured 2026-11-01:
+
+- typo on the right of an `assign` (`assign o_led = i_sww;`) with no directive: yosys prints one
+  `Warning: Identifier 'i_sww' is implicitly declared`, the build finishes, and `led[0]` has no driver
+- same typo with the directive: yosys stops with an `ERROR: ... implicitly declared and` message
+  naming the directive, exit code 1
+- the directive is per file: `top.v` having it does not protect `thruwire.v` (measured, the typo in
+  `thruwire.v` still passed the build)
+
 ## What you write
 
 `rtl/top.v`, with exactly these ports:
 
 ```verilog
+`default_nettype none
+
 module top(input wire [1:0] btn, output wire [5:0] led);
 ```
 
