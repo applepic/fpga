@@ -80,10 +80,11 @@ All pin assignments live in `constraints/tangnano9k.cst`; sources and verificati
 | File | Contents |
 |---|---|
 | [lessons/README.md](lessons/README.md) | **Course index and progress table.** How to walk the route, and the exact shape his questions are answered in |
-| [lessons/02_binary_arithmetic.md](lessons/02_binary_arithmetic.md) | **Lesson 02**: two's complement, addition, sign extension |
-| [lessons/03_always_and_clocks.md](lessons/03_always_and_clocks.md) | **Lesson 03**: `always`, clocks, blocking vs non-blocking, reset |
-| [lessons/legacy_01_verilog_basics.md](lessons/legacy_01_verilog_basics.md) | Legacy lesson 1 (passed 2026-10-29): `wire` / `assign` / bitwise ops |
-| [lessons/04_formal_refinement.md](lessons/04_formal_refinement.md) | **Lesson 05** (file numbered before the 2026-10-30 renumbering): refinement, `assert` / `assume`, proofs with `sby` |
+| [lessons/tutorial_01_wires.md](lessons/tutorial_01_wires.md) | **Lesson 01**: `wire`, `assign`, the module skeleton, constraints, first board build |
+| [lessons/tutorial_02_maskbus.md](lessons/tutorial_02_maskbus.md) | **Lesson 02**: buses, bit select, `maskbus`, the first real testbench |
+| [lessons/tutorial_03_registers.md](lessons/tutorial_03_registers.md) | **Lesson 03**: `reg` is not a register, `always`, latches, blocking vs non-blocking, blinky |
+| [lessons/tutorial_04_dividers.md](lessons/tutorial_04_dividers.md) | **Lesson 04**: clock dividers, PPS, timing checks, dimmer |
+| Retired course | `lessons/legacy_01_verilog_basics.md`, `02_binary_arithmetic.md`, `03_always_and_clocks.md`, `04_formal_refinement.md`: the self-written 24-lesson set, kept only for the questions and answers inside. Not the main line |
 | [LEARNING.md](LEARNING.md) | **Route.** Four phases (A/B/C single cycle, D pipeline), acceptance criteria per phase, toolchain traps |
 | [SPEC.md](SPEC.md) | RV32I scope and open questions |
 | [AGENTS.md](AGENTS.md) | Instructions for AI agents working in this repo |

@@ -4,6 +4,7 @@
 
 | Date | Action | LOG.md |
 |---|---|---|
+| 2026-11-08 | Retired course marked retired in the README and in all four old lesson files | [line 43](LOG.md) |
 | 2026-11-01 | Lesson README documents the answer-callout shape and a new lint-lessons.ps1 enforces it | [line 42](LOG.md) |
 | 2026-11-01 | Answer-callout format corrected to match the two reference lessons; the `回答` body now starts on its own paragraph | [line 41](LOG.md) |
 | 2026-11-01 | Tutorial lesson 01: his six questions answered in place; the `default_nettype` paragraph was wrong and is rewritten | [line 40](LOG.md) |

@@ -1,13 +1,14 @@
 # Lesson 1 (legacy): What you are actually writing in Verilog / 你在 Verilog 里到底在写什么
 
-> **Legacy file, renamed 2026-10-30.** This was lesson 1, passed on 2026-10-29. The course was
-> renumbered the next day (see `lessons/README.md`) and the new numbering starts at 02, because a
-> done lesson does not need a number in the queue. Content is unchanged; the exercise's testbench
-> is now `examples/00_gates/sim/tb_checkpoint1.v`, which is the one you write.
+> **Retired 2026-10-30.** This was lesson 1 of the self-written 24-lesson course, passed on
+> 2026-10-29. The whole course was replaced the next day by the ZipCPU tutorial, so this file is
+> kept only for the questions and answers inside. The course now starts at
+> [tutorial_01_wires.md](tutorial_01_wires.md); index in [README.md](README.md). The exercise's
+> testbench is `examples/00_gates/sim/tb_checkpoint1.v`, which is the one you write.
 >
-> **历史文件，2026-10-30 改名。** 这是旧的第 1 课，2026-10-29 已通过。第二天重排课号，新编号从
-> 02 开始，因为已经通过的课不需要占队列里的号。正文没动；练习的测试台已换成你要自己写的
-> `examples/00_gates/sim/tb_checkpoint1.v`。
+> **已废止，2026-10-30。** 这是旧的自编 24 课的第 1 课，2026-10-29 已通过。第二天整套课程换成
+> ZipCPU 教程，这份文件只作为提问和回答的留档。现在从 [tutorial_01_wires.md](tutorial_01_wires.md)
+> 开始。练习的测试台是 `examples/00_gates/sim/tb_checkpoint1.v`，由你自己写。
 
 > **Bilingual format, from 2026-10-28.** English is the primary text and is complete on its own.
 > Chinese follows each paragraph as a blockquote, so you read English first and drop into Chinese

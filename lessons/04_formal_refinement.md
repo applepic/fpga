@@ -1,7 +1,11 @@
 # Lesson 05: Refinement, or what a proof gives you that a test does not
 
-> Numbered 4 in this file's name before the 2026-10-30 renumbering; the course index calls it
-> lesson 05. Content is unchanged.
+> **Retired 2026-10-30.** Part of the self-written 24-lesson course, replaced by the ZipCPU
+> tutorial. Kept for the questions and answers inside. The course now starts at
+> [tutorial_01_wires.md](tutorial_01_wires.md); index in [README.md](README.md).
+>
+> Numbered 4 in this file's name before the 2026-10-30 renumbering; the course index called it
+> lesson 05.
 
 **Prerequisite**: legacy lesson 1 (`assign`, combinational logic), lesson 03 (`always @(posedge clk)`),
 lesson 04 (counters). This lesson builds on all of them.

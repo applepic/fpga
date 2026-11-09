@@ -1,5 +1,12 @@
 # Lesson 03 · `always`, clocks, blocking vs non-blocking / `always`、时钟、阻塞与非阻塞
 
+> **Retired 2026-10-30.** Part of the self-written 24-lesson course, replaced by the ZipCPU
+> tutorial. Kept for the questions and answers inside. The course now starts at
+> [tutorial_01_wires.md](tutorial_01_wires.md); index in [README.md](README.md).
+>
+> **已废止，2026-10-30。** 属于旧的自编 24 课路线，课程已换成 ZipCPU 教程。保留是因为里面有
+> 你的提问和回答。现在从 [tutorial_01_wires.md](tutorial_01_wires.md) 开始。
+
 > Bilingual, 2026-10-28 format: English is the primary text and complete on its own, Chinese
 > follows each paragraph as a blockquote. Code, signal names, commands and error messages are
 > never translated.
